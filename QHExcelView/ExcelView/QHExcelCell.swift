@@ -29,7 +29,9 @@ class QHExcelCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.titleLabel.removeFromSuperview()
+        self.titleLabel.frame = .zero
         self.icon.removeFromSuperview()
+        self.icon.frame = .zero
     }
     
     
@@ -44,19 +46,22 @@ class QHExcelCell: UICollectionViewCell {
         if isMenu {
             self.titleLabel.font = config.menuTitleFont
             self.titleLabel.textColor = config.menuTitleColor
+            self.contentView.backgroundColor = config.menuBackgroundColor
         }
         else {
             if isFirstColumn {
                 self.titleLabel.font = config.firstColumnFont
                 self.titleLabel.textColor = config.firstColumnColor
+                self.contentView.backgroundColor = config.firstColumnBackgroundColor
             }
             else {
                 self.titleLabel.font = config.contentFont
                 self.titleLabel.textColor = config.contentColor
+                self.contentView.backgroundColor = config.contentBackgroundColor
             }
         }
     
-        self.setUpUI(margin: config.titleAndIconMargin)
+        self.setUpUI(config: config)
     }
     
     // MARK: - UI
@@ -64,6 +69,7 @@ class QHExcelCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.lineBreakMode = .byTruncatingMiddle
+        label.numberOfLines = 0
         return label
     }()
     
@@ -72,28 +78,31 @@ class QHExcelCell: UICollectionViewCell {
         return imageView
     }()
     
-    private func setUpUI(margin: CGFloat) {
+    private func setUpUI(config: QHExcelConfig) {
         
-        if self.icon.image != nil {
+        if self.icon.isHidden == false {
             
             self.icon.sizeToFit()
-            self.titleLabel.sizeToFit()
             
-            let totalWidth = self.icon.frame.width + self.titleLabel.frame.width + margin
-            let offSetX = (self.frame.width - totalWidth) * 0.5
+//            let totalWidth = self.icon.frame.width + self.titleLabel.frame.width + config.titleAndIconMargin
+//            let offSetX = (self.frame.width - totalWidth -  config.contentEdgeInsets.left - config.contentEdgeInsets.right) * 0.5
 
             
             self.contentView.addSubview(self.titleLabel)
             self.contentView.addSubview(self.icon)
-            self.icon.frame.origin.x = offSetX
+            self.icon.frame.origin.x = config.contentEdgeInsets.left
             self.icon.frame.origin.y = (self.bounds.height - self.icon.image!.size.height) * 0.5
             
-            self.titleLabel.frame.origin.x = self.icon.frame.origin.x + self.icon.frame.width + margin
+            self.titleLabel.frame.origin.x = self.icon.frame.origin.x + self.icon.frame.width + config.titleAndIconMargin
+            self.titleLabel.frame.size.width = self.bounds.width - self.titleLabel.frame.origin.x - config.contentEdgeInsets.right
+            self.titleLabel.frame.size.height = self.titleLabel.sizeThatFits(CGSize(width: self.titleLabel.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
             self.titleLabel.center.y = self.icon.center.y
         }
         else {
             self.contentView.addSubview(self.titleLabel)
-            self.titleLabel.frame = self.bounds
+            self.titleLabel.frame.origin.x = config.contentEdgeInsets.left
+            self.titleLabel.frame.size.width = self.bounds.width - config.contentEdgeInsets.left - config.contentEdgeInsets.right
+            self.titleLabel.frame.size.height = self.bounds.height
         }
     }
     

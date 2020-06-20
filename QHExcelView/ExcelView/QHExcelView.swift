@@ -119,7 +119,7 @@ extension QHExcelView: UICollectionViewDataSource {
 // MARK: - QHExcelCollectionViewLayoutDelegate
 extension QHExcelView: QHExcelCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 70, height: 30)
+        return CGSize(width: self.config.contentsWidths[indexPath.item], height: self.config.contentsHeights[indexPath.section])
     }
     
     
