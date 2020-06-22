@@ -87,7 +87,7 @@ struct QHExcelConfig {
     /// cell的最大最小高度
     var contentMaxHeight: CGFloat = 50
     var contentMinHeight: CGFloat = 30
-    
+    var contentIconSize: CGSize = CGSize(width: 24, height: 24)
     /// contentView宽度
     private var collectionViewWidth: CGFloat
     
@@ -310,9 +310,9 @@ struct QHExcelConfig {
         }
         
         
-        if let icon = maxContent.icon {
-            iconWidth = icon.size.width
-            iconHeight = icon.size.height
+        if let _ = maxContent.icon {
+            iconWidth = self.contentIconSize.width
+            iconHeight = self.contentIconSize.height
         }
         if let title = maxContent.title {
             let attrString = NSAttributedString(string: title, attributes: [NSAttributedString.Key.font : font])

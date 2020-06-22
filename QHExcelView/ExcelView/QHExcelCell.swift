@@ -103,10 +103,10 @@ class QHExcelCell: UICollectionViewCell {
         
         if self.icon.isHidden == false {
             
-            self.icon.sizeToFit()
-            
             self.contentView.addSubview(self.titleLabel)
             self.contentView.addSubview(self.icon)
+            self.icon.frame.size = config.contentIconSize
+
             self.icon.frame.origin.x = config.contentEdgeInsets.left
             self.icon.frame.origin.y = (self.bounds.height - self.icon.image!.size.height) * 0.5
             

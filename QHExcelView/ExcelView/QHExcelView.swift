@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol QHExcelViewDelegate: NSObjectProtocol {
+    /// 点击选中
+    func didSelectedItem(excelView: QHExcelView,row: Int,column: Int)
+}
+
 class QHExcelView: UIView {
     
     // MARK: - initial methods
@@ -22,7 +27,20 @@ class QHExcelView: UIView {
         
     }
     
+
     
+
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - property
+    
+    private var config: QHExcelConfig
+    
+    weak var delegate: QHExcelViewDelegate?
+
     /// 滚动条显示
     var showsVerticalScrollIndicator: Bool = false {
         didSet {
@@ -34,15 +52,6 @@ class QHExcelView: UIView {
             self.contentView.showsHorizontalScrollIndicator = self.showsHorizontalScrollIndicator
         }
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - property
-    
-    private var config: QHExcelConfig
-
 
     // MARK: - UI
     private lazy var contentView: QHExcelCollectionView = {
@@ -140,5 +149,19 @@ extension QHExcelView: QHExcelCollectionViewLayoutDelegate {
     }
     
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if self.config.showMenu {
+            if indexPath.section != 0 {
+                self.delegate?.didSelectedItem(excelView: self, row: indexPath.section - 1, column: indexPath.item)
+
+            }
+        }
+        else {
+            self.delegate?.didSelectedItem(excelView: self, row: indexPath.section, column: indexPath.item)
+        }
+        
+
+    }
 }
 
