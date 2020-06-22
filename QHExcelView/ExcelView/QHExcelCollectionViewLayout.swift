@@ -147,7 +147,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
                 self.layoutItemLcckFirtCell(attr: attr, indexPath: indexPath, size: size)
             }
             else {
-                let lockInfo = (self.config.lockMenu,self.config.lockFirstColumn)
+                let lockInfo = (self.config.lockMenu,self.config.lockColumn)
                 
                 switch lockInfo {
                 case (true,true):
@@ -155,7 +155,13 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
                 case (true,false):
                     self.layoutItemWithLockMenu(attr: attr, indexPath: indexPath, size: size)
                 case (false,true):
-                    self.layoutItemWihtLockFirstColumn(attr: attr, indexPath: indexPath, size: size)
+                    if self.config.lockColumnItems.isEmpty {
+                        self.layoutItemWithoutLock(attr: attr, indexPath: indexPath, size: size)
+                    }
+                    else {
+                        self.layoutItemWihtLockFirstColumn(attr: attr, indexPath: indexPath, size: size)
+
+                    }
                 case (false,false):
                     self.layoutItemWithoutLock(attr: attr, indexPath: indexPath, size: size)
                 }
@@ -210,22 +216,30 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
 
     }
     
-    /// 锁定第一列
+    /// 锁定列
     private func layoutItemWihtLockFirstColumn(attr: UICollectionViewLayoutAttributes,indexPath: IndexPath,size: CGSize) {
         
-        ///为第一列布局
-        if indexPath.item == 0 {
-            
-            if indexPath.section == 0 {
-                attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+        let sortItem = self.config.lockColumnItems.sorted { $0 < $1}
+        
+        let firstHeight = self.config.contentsHeights[0]
+        
+        ///为锁定列布局
+        if sortItem.contains(indexPath.item) {
+
+            if indexPath.item == 0 {
+                attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+
             }
             else {
-              attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+                guard let firstAttr = self.yAaixAtts.last(where: {$0.indexPath.section == indexPath.section}) else { return }
+                attr.frame = CGRect(x: self.xAaixLastOffsetX, y: firstAttr.frame.origin.y, width: size.width, height: size.height)
             }
-
             attr.zIndex = 999
-            self.yAasixLastOffsetY = attr.frame.origin.y + size.height
+            self.xAaixLastOffsetX = attr.frame.origin.x + size.width
+            self.yAasixLastOffsetY = indexPath.section == 0 ? firstHeight : attr.frame.origin.y + size.height
+
             self.yAaixAtts.append(attr)
+            
         }
         else {
             
@@ -234,14 +248,18 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
                     attr.frame = CGRect(x: lastAttr.frame.width + lastAttr.frame.origin.x, y: lastAttr.frame.origin.y, width: size.width, height: size.height)
                 }
                 else {
-                    guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                    attr.frame = CGRect(x: firstAttr.frame.width, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
+                    let sectionAttrs = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section })
+                    let widths = sectionAttrs.map { $0.frame.width}
+                    let totalWidth = widths.reduce(0) { $0 + $1 }
+                    attr.frame = CGRect(x: totalWidth, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
                 }
 
             }
             else {
-                guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                attr.frame = CGRect(x: firstAttr.frame.width, y: 0, width: size.width, height: size.height)
+                let sectionAttrs = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section })
+                let widths = sectionAttrs.map { $0.frame.width}
+                let totalWidth = widths.reduce(0) { $0 + $1 }
+                attr.frame = CGRect(x: totalWidth, y: 0, width: size.width, height: size.height)
             }
             
             self.lastAttr = attr

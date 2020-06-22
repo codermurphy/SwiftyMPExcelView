@@ -33,7 +33,7 @@ struct QHExcelConfig {
         didSet {
             if self.lockFirstCell == true {
                 self.lockMenu = false
-                self.lockFirstColumn = false
+                self.lockColumn = false
             }
         }
     }
@@ -41,14 +41,24 @@ struct QHExcelConfig {
     /// 是否锁定菜单栏
     var lockMenu: Bool = false
     
-    /// 首付锁定第一列
-    var lockFirstColumn: Bool = false
+    var showBorder: Bool = true
+    var borderColor: UIColor = .lightGray
+    var borderWidth: CGFloat = 1
     
-    /// 是否显示横坐标分割线
-    var showXAaixLine: Bool = true
+    /// 首付锁定第一列
+    var lockColumn: Bool = false
+    var lockColumnItems: [Int] = []
+    
+    /// 是否显示横坐标分割线 颜色
+    var showXAisLine: Bool = true
+    var xAxisColor: UIColor = .lightGray
+    var xAxisHWidth: CGFloat = 1
     
     /// 是否显示纵坐标分割线
-    var showYAaxiLine: Bool = true
+    var showYAxiaiLine: Bool = false
+    var yAxisColor: UIColor = .lightGray
+    var yAxisHeight: CGFloat = 1
+    
     
     /// 菜单栏字体和颜色,背景色
     var menuTitleFont: UIFont = .systemFont(ofSize: 12)

@@ -15,6 +15,10 @@ class QHExcelView: UIView {
         self.config = config
         super.init(frame: .zero)
         self.addSubview(self.contentView)
+        if config.showBorder  {
+            self.layer.borderColor = config.borderColor.cgColor
+            self.layer.borderWidth = config.borderWidth
+        }
         
     }
     
@@ -26,13 +30,11 @@ class QHExcelView: UIView {
     
     private var config: QHExcelConfig
 
+
     // MARK: - UI
     private lazy var contentView: UICollectionView = {
         
-        let layout = QHExcelCollectionViewLayout(config: self.config)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .white
-        collectionView.register(QHExcelCell.self, forCellWithReuseIdentifier: kQHExcelCellTextIdentifier)
+        let collectionView = QHExcelCollectionView(config: self.config)
         collectionView.dataSource = self
         collectionView.delegate = self
         return collectionView
@@ -44,6 +46,8 @@ class QHExcelView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.contentView.frame = self.bounds
+        
+        self.sendSubviewToBack(self.contentView)
     }
 
 }
@@ -61,7 +65,7 @@ extension QHExcelView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kQHExcelCellTextIdentifier, for: indexPath) as! QHExcelCell
-        
+        cell.indexPath = indexPath
         if self.config.showMenu == true {
             switch indexPath.section {
             case 0:
@@ -125,17 +129,3 @@ extension QHExcelView: QHExcelCollectionViewLayoutDelegate {
     
 }
 
-
-// MARK: - separator
-extension QHExcelView {
-    
-    func createXAaixLine() {
-        
-        let path = UIBezierPath()
-        
-    }
-    
-    func createYAaixLine() {
-        
-    }
-}

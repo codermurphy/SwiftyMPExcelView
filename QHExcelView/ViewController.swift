@@ -25,8 +25,8 @@ class ViewController: UIViewController {
         }
 
         var config = QHExcelConfig(row:5,column: 8,menu: menus, contents: contens)
-        config.lockFirstColumn = true
-
+        config.lockColumn = true
+        config.lockColumnItems = [0,1]
         let contentView = QHExcelView(config: config)
 
         contentView.frame = CGRect(x: 0, y: 88, width: self.view.bounds.width, height: config.totalHeight)
