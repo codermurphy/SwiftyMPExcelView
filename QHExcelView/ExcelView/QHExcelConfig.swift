@@ -93,10 +93,7 @@ struct QHExcelConfig {
     
     /// cell内容边距
     var contentEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-    
-    /// 滚动条显示
-    var showsVerticalScrollIndicator: Bool = false
-    var showsHorizontalScrollIndicator: Bool = false
+
     
     var emptyTitle: String = "--"
     

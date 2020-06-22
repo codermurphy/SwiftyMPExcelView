@@ -22,6 +22,19 @@ class QHExcelView: UIView {
         
     }
     
+    
+    /// 滚动条显示
+    var showsVerticalScrollIndicator: Bool = false {
+        didSet {
+            self.contentView.showsVerticalScrollIndicator = self.showsVerticalScrollIndicator
+        }
+    }
+    var showsHorizontalScrollIndicator: Bool = false {
+        didSet {
+            self.contentView.showsHorizontalScrollIndicator = self.showsHorizontalScrollIndicator
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -37,8 +50,8 @@ class QHExcelView: UIView {
         let collectionView = QHExcelCollectionView(config: self.config)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.showsVerticalScrollIndicator = self.config.showsHorizontalScrollIndicator
-        collectionView.showsHorizontalScrollIndicator = self.config.showsVerticalScrollIndicator
+        collectionView.showsVerticalScrollIndicator = self.showsHorizontalScrollIndicator
+        collectionView.showsHorizontalScrollIndicator = self.showsVerticalScrollIndicator
         return collectionView
     }()
     
