@@ -18,10 +18,40 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        let menus = [(nil,"球员"),(nil,"时间时间时间时间时间时间时间"),(UIImage(named: "wode"),"在场在场在场在场"),(nil,"首发"),(nil,"得分"),(nil,"篮板"),(nil,"助攻"),(nil,"抢断")]
-        var contens: [(UIImage?,String?)] = []
+        var play = QHExcelModel()
+        play.title = "球员"
+        
+        var time = QHExcelModel()
+        time.icon = UIImage(named: "wode")
+        time.title = "时间"
+        
+        var onPlaying = QHExcelModel()
+        onPlaying.title = "在场"
+        
+        var isFirst = QHExcelModel()
+        isFirst.title = "首发"
+        
+        var score = QHExcelModel()
+        score.title = "得分"
+        
+        var backboard = QHExcelModel()
+        backboard.title = "篮板"
+        
+        var assist = QHExcelModel()
+        assist.title = "助攻"
+        
+        var steal = QHExcelModel()
+        steal.title = "抢断"
+        
+        let menus = [play,time,onPlaying,isFirst,score,backboard,assist,steal]
+        var contens: [QHExcelModel] = []
         for index in 0..<40 {
-            contens.append((nil,String(index)))
+            var item = QHExcelModel()
+            item.title = String(index)
+            if index % 8 == 0 {
+                item.titleColor = .red
+            }
+            contens.append(item)
         }
 
         var config = QHExcelConfig(row:5,column: 8,menu: menus, contents: contens)

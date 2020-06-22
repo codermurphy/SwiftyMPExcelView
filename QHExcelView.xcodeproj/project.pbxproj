@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F64AB24124A04785001F95CB /* QHExcelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */; };
+		F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24224A07DB7001F95CB /* QHExcelModel.swift */; };
 		F68CCDD2249B3D54005FB517 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDD1249B3D54005FB517 /* AppDelegate.swift */; };
 		F68CCDD6249B3D54005FB517 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDD5249B3D54005FB517 /* ViewController.swift */; };
 		F68CCDD9249B3D54005FB517 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F68CCDD7249B3D54005FB517 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelCollectionView.swift; sourceTree = "<group>"; };
+		F64AB24224A07DB7001F95CB /* QHExcelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelModel.swift; sourceTree = "<group>"; };
 		F68CCDCE249B3D54005FB517 /* QHExcelView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QHExcelView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F68CCDD1249B3D54005FB517 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F68CCDD5249B3D54005FB517 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				F68CCDE8249B5695005FB517 /* QHExcelCollectionViewLayout.swift */,
 				F68CCDEA249B6ABD005FB517 /* QHExcelView.swift */,
 				F68CCDEC249B6E1E005FB517 /* QHExcelConfig.swift */,
+				F64AB24224A07DB7001F95CB /* QHExcelModel.swift */,
 			);
 			path = ExcelView;
 			sourceTree = "<group>";
@@ -158,6 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */,
 				F68CCDD6249B3D54005FB517 /* ViewController.swift in Sources */,
 				F68CCDE9249B5695005FB517 /* QHExcelCollectionViewLayout.swift in Sources */,
 				F68CCDED249B6E1E005FB517 /* QHExcelConfig.swift in Sources */,

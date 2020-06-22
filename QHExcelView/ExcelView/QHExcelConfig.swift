@@ -10,12 +10,13 @@ import UIKit
 
 struct QHExcelConfig {
     
-    init(row: Int,column: Int,menu: [(icon: UIImage?,title: String)],contents: [(icon: UIImage?,title: String?)]) {
+    init(row: Int,column: Int,menu: [QHExcelModel],contents: [QHExcelModel],collectionViewWidth: CGFloat = UIScreen.main.bounds.width) {
         self.row = row
         self.column = column
         self.menuContents = menu
         self.showMenu = !menu.isEmpty
         self.contents = contents
+        self.collectionViewWidth = collectionViewWidth
         self.calFitWidthAndHeights()
     }
     
@@ -41,7 +42,8 @@ struct QHExcelConfig {
     /// 是否锁定菜单栏
     var lockMenu: Bool = false
     
-    var showBorder: Bool = true
+    /// 显示边框
+    var showBorder: Bool = false
     var borderColor: UIColor = .lightGray
     var borderWidth: CGFloat = 1
     
@@ -68,7 +70,7 @@ struct QHExcelConfig {
     /// 第一列字体颜色，背景色
     var firstColumnFont: UIFont = .systemFont(ofSize: 14)
     var firstColumnColor: UIColor = .black
-    var firstColumnBackgroundColor: UIColor = .blue
+    var firstColumnBackgroundColor: UIColor = .white
     
     /// 内容字体颜色，背景色
     var contentFont: UIFont = .systemFont(ofSize: 12)
@@ -86,8 +88,17 @@ struct QHExcelConfig {
     var contentMaxHeight: CGFloat = 50
     var contentMinHeight: CGFloat = 30
     
+    /// contentView宽度
+    private var collectionViewWidth: CGFloat
+    
     /// cell内容边距
     var contentEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+    
+    /// 滚动条显示
+    var showsVerticalScrollIndicator: Bool = false
+    var showsHorizontalScrollIndicator: Bool = false
+    
+    var emptyTitle: String = "--"
     
     
     /// 行数 -> 不包括菜单栏
@@ -97,14 +108,14 @@ struct QHExcelConfig {
     private(set) var column: Int = 0
         
     /// 菜单
-    private(set) var menuContents: [(icon: UIImage?,title: String?)]
+    private(set) var menuContents: [QHExcelModel]
     
     /// 数据源
-    private(set) var contents: [(icon: UIImage?,title: String?)]
+    private(set) var contents: [QHExcelModel]
     
     /// 处理数据源 对数据进行分组
-    var _contents: [[(icon: UIImage?,title: String?)]] {
-        let result: [[(icon: UIImage?,title: String?)]] = self.contents.reduce(into: []) { (group, element) in
+    var _contents: [[QHExcelModel]] {
+        let result: [[QHExcelModel]] = self.contents.reduce(into: []) { (group, element) in
             
             if group.isEmpty {
                 return group.append([element])
@@ -159,7 +170,7 @@ struct QHExcelConfig {
         }
         
         /// 过滤第一列，获取所有非菜单和非第一列的内容
-        let contents = self._contents.map { (element) -> [(icon: UIImage?,title: String?)] in
+        let contents = self._contents.map { (element) -> [QHExcelModel] in
             var result = element
             result.removeFirst()
             return result
@@ -170,9 +181,9 @@ struct QHExcelConfig {
         let rowHeight = contents.map { self.calContentSize(contents: $0, isMenu: false, isFirstColuom: false).height}
         
         /// 列内容
-        var columnContents: [[(icon: UIImage?,title: String?)]] = []
+        var columnContents: [[QHExcelModel]] = []
         for index in 0..<self.column {
-            var result: [(icon: UIImage?,title: String?)] = []
+            var result: [QHExcelModel] = []
             for item in self._contents {
                 result.append(item[index])
             }
@@ -243,8 +254,8 @@ struct QHExcelConfig {
         
         let totalWidth = ressultWidth.reduce(0) { $0 + $1 }
         
-        if totalWidth < UIScreen.main.bounds.width {
-            let avgWidth = UIScreen.main.bounds.width / CGFloat(self.column)
+        if totalWidth < self.collectionViewWidth {
+            let avgWidth = self.collectionViewWidth / CGFloat(self.column)
             for index in 0..<self.column {
                 if ressultWidth[index] > avgWidth {
                     self.contentsWidths.append(ressultWidth[index])
@@ -265,7 +276,7 @@ struct QHExcelConfig {
         
     }
     
-    private func calContentSize(contents:  [(icon: UIImage?,title: String?)],isMenu: Bool,isFirstColuom: Bool) -> CGSize {
+    private func calContentSize(contents:  [QHExcelModel],isMenu: Bool,isFirstColuom: Bool) -> CGSize {
         guard contents.isEmpty == false else { return CGSize(width: self.contentMinWidth, height: self.contentMinHeight)}
         var width: CGFloat = 0
         
@@ -291,7 +302,7 @@ struct QHExcelConfig {
         
         
         
-        let maxContent = contents.reduce(contents[0]) { (pre, next) -> (icon: UIImage?,title: String?) in
+        let maxContent = contents.reduce(contents[0]) { (pre, next) -> QHExcelModel in
             let preImage = pre.icon != nil ? 1 : 0
             let preTitleCount = pre.title != nil ? pre.title!.count : 0
             let preSum = preImage + preTitleCount

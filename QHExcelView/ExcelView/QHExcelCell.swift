@@ -45,22 +45,21 @@ class QHExcelCell: UICollectionViewCell {
     
     
     // MARK: -  configContent
-    func config(icon: UIImage?,title:String?,isMenu: Bool = false,isFirstColumn: Bool = false,config: QHExcelConfig) {
+    func config(icon: UIImage?,title:String?,titleColor: UIColor? = nil,isMenu: Bool = false,isFirstColumn: Bool = false,config: QHExcelConfig) {
     
         self.icon.image = icon
         self.icon.isHidden = icon == nil
         self.titleLabel.text = title
-
     
         if isMenu {
             self.titleLabel.font = config.menuTitleFont
-            self.titleLabel.textColor = config.menuTitleColor
+            self.titleLabel.textColor = titleColor ?? config.menuTitleColor
             self.contentView.backgroundColor = config.menuBackgroundColor
         }
         else {
             if isFirstColumn {
                 self.titleLabel.font = config.firstColumnFont
-                self.titleLabel.textColor = config.firstColumnColor
+                self.titleLabel.textColor = titleColor ?? config.firstColumnColor
                 self.contentView.backgroundColor = config.firstColumnBackgroundColor
             }
             else {
@@ -69,7 +68,6 @@ class QHExcelCell: UICollectionViewCell {
                 self.contentView.backgroundColor = config.contentBackgroundColor
             }
         }
-    
         self.setUpUI(config: config)
     }
     

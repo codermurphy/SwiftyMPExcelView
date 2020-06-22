@@ -32,11 +32,13 @@ class QHExcelView: UIView {
 
 
     // MARK: - UI
-    private lazy var contentView: UICollectionView = {
+    private lazy var contentView: QHExcelCollectionView = {
         
         let collectionView = QHExcelCollectionView(config: self.config)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsVerticalScrollIndicator = self.config.showsHorizontalScrollIndicator
+        collectionView.showsHorizontalScrollIndicator = self.config.showsVerticalScrollIndicator
         return collectionView
     }()
     
@@ -46,8 +48,6 @@ class QHExcelView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.contentView.frame = self.bounds
-        
-        self.sendSubviewToBack(self.contentView)
     }
 
 }
@@ -71,26 +71,26 @@ extension QHExcelView: UICollectionViewDataSource {
             case 0:
                 if indexPath.item < self.config.menuContents.count {
                     let element = self.config.menuContents[indexPath.item]
-                    cell.config(icon: element.icon, title: element.title,isMenu: true,isFirstColumn: false,config: self.config)
+                    cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: true,isFirstColumn: false,config: self.config)
                 }
             default:
                 if indexPath.section - 1 < self.config._contents.count {
                     if indexPath.item  < self.config._contents[indexPath.section - 1].count {
                         let element = self.config._contents[indexPath.section - 1][indexPath.item]
                         if indexPath.item == 0 {
-                            cell.config(icon: element.icon, title: element.title,isMenu: false,isFirstColumn: true,config: self.config)
+                            cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: false,isFirstColumn: true,config: self.config)
                         }
                         else {
-                            cell.config(icon: element.icon, title: element.title,isMenu: false,isFirstColumn: false,config: self.config)
+                            cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: false,isFirstColumn: false,config: self.config)
                         }
                         
                     }
                     else {
-                        cell.config(icon: nil, title: "-",isMenu: false,isFirstColumn: false,config: self.config)
+                        cell.config(icon: nil, title: self.config.emptyTitle,isMenu: false,isFirstColumn: false,config: self.config)
                     }
                 }
                 else {
-                    cell.config(icon: nil, title: "-",isMenu: false,isFirstColumn: false,config: self.config)
+                    cell.config(icon: nil, title: self.config.emptyTitle,isMenu: false,isFirstColumn: false,config: self.config)
                 }
             }
         }
@@ -99,18 +99,18 @@ extension QHExcelView: UICollectionViewDataSource {
                 if indexPath.item  < self.config._contents[indexPath.section].count {
                     let element = self.config._contents[indexPath.section][indexPath.item]
                     if indexPath.item == 0 {
-                        cell.config(icon: element.icon, title: element.title,isMenu: true,isFirstColumn: false,config: self.config)
+                        cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: true,isFirstColumn: false,config: self.config)
                     }
                     else {
-                        cell.config(icon: element.icon, title: element.title,isMenu: false,isFirstColumn: false,config: self.config)
+                        cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: false,isFirstColumn: false,config: self.config)
                     }
                 }
                 else {
-                    cell.config(icon: nil, title: "-",isMenu: false,isFirstColumn: false,config: self.config)
+                    cell.config(icon: nil, title: self.config.emptyTitle,isMenu: false,isFirstColumn: false,config: self.config)
                 }
             }
             else {
-                cell.config(icon: nil, title: "-",isMenu: false,isFirstColumn: false,config: self.config)
+                cell.config(icon: nil, title: self.config.emptyTitle,isMenu: false,isFirstColumn: false,config: self.config)
             }
         }
         
