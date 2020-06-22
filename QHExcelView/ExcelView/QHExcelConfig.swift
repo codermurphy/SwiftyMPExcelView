@@ -10,12 +10,13 @@ import UIKit
 
 struct QHExcelConfig {
     
-    init(row: Int,column: Int,menu: [QHExcelModel],contents: [QHExcelModel],collectionViewWidth: CGFloat = UIScreen.main.bounds.width) {
-        self.row = row
+    init(column: Int,menu: [QHExcelModel],contents: [QHExcelModel],collectionViewWidth: CGFloat = UIScreen.main.bounds.width) {
         self.column = column
+        let groupContents = contents.group(by: column)
+        self.row = groupContents.count
         self.menuContents = menu
         self.showMenu = !menu.isEmpty
-        self.contents = contents
+        self.contents = groupContents
         self.collectionViewWidth = collectionViewWidth
         self.calFitWidthAndHeights()
     }
@@ -108,23 +109,13 @@ struct QHExcelConfig {
     private(set) var menuContents: [QHExcelModel]
     
     /// 数据源
-    private(set) var contents: [QHExcelModel]
+    private(set) var contents: [[QHExcelModel]]
     
     /// 处理数据源 对数据进行分组
-    var _contents: [[QHExcelModel]] {
-        let result: [[QHExcelModel]] = self.contents.reduce(into: []) { (group, element) in
-            
-            if group.isEmpty {
-                return group.append([element])
-            }
-            if group.last!.count < self.column  {
-                group.append(group.removeLast() + [element])
-            } else {
-                group.append([element])
-            }
-        }
-        return result
-    }
+//    var _contents: [[QHExcelModel]] {
+//
+//        return self.contents.group(by: self.column)
+//    }
     
     /// 所有cell 宽度
     private(set) var contentsWidths: [CGFloat] = []
@@ -167,7 +158,7 @@ struct QHExcelConfig {
         }
         
         /// 过滤第一列，获取所有非菜单和非第一列的内容
-        let contents = self._contents.map { (element) -> [QHExcelModel] in
+        let contents = self.contents.map { (element) -> [QHExcelModel] in
             var result = element
             result.removeFirst()
             return result
@@ -181,8 +172,10 @@ struct QHExcelConfig {
         var columnContents: [[QHExcelModel]] = []
         for index in 0..<self.column {
             var result: [QHExcelModel] = []
-            for item in self._contents {
-                result.append(item[index])
+            for item in self.contents {
+                if index < item.count - 1 {
+                    result.append(item[index])
+                }
             }
             columnContents.append(result)
         }

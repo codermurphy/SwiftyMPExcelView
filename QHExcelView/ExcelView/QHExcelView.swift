@@ -96,9 +96,9 @@ extension QHExcelView: UICollectionViewDataSource {
                     cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: true,isFirstColumn: false,config: self.config)
                 }
             default:
-                if indexPath.section - 1 < self.config._contents.count {
-                    if indexPath.item  < self.config._contents[indexPath.section - 1].count {
-                        let element = self.config._contents[indexPath.section - 1][indexPath.item]
+                if indexPath.section - 1 < self.config.contents.count {
+                    if indexPath.item  < self.config.contents[indexPath.section - 1].count {
+                        let element = self.config.contents[indexPath.section - 1][indexPath.item]
                         if indexPath.item == 0 {
                             cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: false,isFirstColumn: true,config: self.config)
                         }
@@ -117,9 +117,9 @@ extension QHExcelView: UICollectionViewDataSource {
             }
         }
         else {
-            if indexPath.section  < self.config._contents.count {
-                if indexPath.item  < self.config._contents[indexPath.section].count {
-                    let element = self.config._contents[indexPath.section][indexPath.item]
+            if indexPath.section  < self.config.contents.count {
+                if indexPath.item  < self.config.contents[indexPath.section].count {
+                    let element = self.config.contents[indexPath.section][indexPath.item]
                     if indexPath.item == 0 {
                         cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: true,isFirstColumn: false,config: self.config)
                     }

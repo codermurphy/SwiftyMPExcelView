@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         
         let menus = [play,time,onPlaying,isFirst,score,backboard,assist,steal]
         var contens: [QHExcelModel] = []
-        for index in 0..<40 {
+        for index in 0..<50 {
             var item = QHExcelModel()
             item.title = String(index)
             if index % 8 == 0 {
@@ -54,7 +54,7 @@ class ViewController: UIViewController {
             contens.append(item)
         }
 
-        var config = QHExcelConfig(row:5,column: 8,menu: menus, contents: contens)
+        var config = QHExcelConfig(column: 8,menu: menus, contents: contens)
         config.lockColumn = true
         config.lockColumnItems = [0,1]
         let contentView = QHExcelView(config: config)

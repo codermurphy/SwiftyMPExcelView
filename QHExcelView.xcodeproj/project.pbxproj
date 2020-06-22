@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D367B9C24A0F88200EFDD25 /* Array+QHExcel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */; };
 		F64AB24124A04785001F95CB /* QHExcelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */; };
 		F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24224A07DB7001F95CB /* QHExcelModel.swift */; };
 		F68CCDD2249B3D54005FB517 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDD1249B3D54005FB517 /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+QHExcel.swift"; sourceTree = "<group>"; };
 		F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelCollectionView.swift; sourceTree = "<group>"; };
 		F64AB24224A07DB7001F95CB /* QHExcelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelModel.swift; sourceTree = "<group>"; };
 		F68CCDCE249B3D54005FB517 /* QHExcelView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QHExcelView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +88,7 @@
 				F68CCDEA249B6ABD005FB517 /* QHExcelView.swift */,
 				F68CCDEC249B6E1E005FB517 /* QHExcelConfig.swift */,
 				F64AB24224A07DB7001F95CB /* QHExcelModel.swift */,
+				0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */,
 			);
 			path = ExcelView;
 			sourceTree = "<group>";
@@ -162,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */,
+				0D367B9C24A0F88200EFDD25 /* Array+QHExcel.swift in Sources */,
 				F68CCDD6249B3D54005FB517 /* ViewController.swift in Sources */,
 				F68CCDE9249B5695005FB517 /* QHExcelCollectionViewLayout.swift in Sources */,
 				F68CCDED249B6E1E005FB517 /* QHExcelConfig.swift in Sources */,
