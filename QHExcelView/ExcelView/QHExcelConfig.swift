@@ -18,7 +18,6 @@ struct QHExcelConfig {
         self.showMenu = !menu.isEmpty
         self.contents = contents
         self.collectionViewWidth = collectionViewWidth
-        self.calFitWidthAndHeights()
     }
     
     /// 是否显示菜单
@@ -52,12 +51,12 @@ struct QHExcelConfig {
     var lockColumn: Bool = false
     var lockColumnItems: [Int] = []
     
-    /// 是否显示横坐标分割线 颜色
-    var showXAisLine: Bool = true
+    /// 是否显示横向分割线 颜色
+    var showXAisLine: Bool = false
     var xAxisColor: UIColor = .lightGray
     var xAxisHWidth: CGFloat = 1
     
-    /// 是否显示纵坐标分割线
+    /// 是否显示纵向分割线
     var showYAxiaiLine: Bool = false
     var yAxisColor: UIColor = .lightGray
     var yAxisHeight: CGFloat = 1
@@ -81,13 +80,15 @@ struct QHExcelConfig {
     /// 文本和图片的间距
     var titleAndIconMargin: CGFloat = 5
     
-    /// cell的最大最小宽度
+    /// item的间距
+    var itemSpacing: CGFloat = 0
+    
+    /// cell的最大宽度
     var contentMaxWidth: CGFloat = 100
-    var contentMinWidth: CGFloat = 50
     
     /// cell的最大最小高度
     var contentMaxHeight: CGFloat = 50
-    var contentMinHeight: CGFloat = 30
+    
     var contentIconSize: CGSize = CGSize(width: 24, height: 24)
     /// contentView宽度
     private var collectionViewWidth: CGFloat
@@ -173,7 +174,7 @@ struct QHExcelConfig {
         for index in 0..<self.column {
             var result: [QHExcelModel] = []
             for item in self._contents {
-                if index < item.count - 1 {
+                if index < item.count{
                     result.append(item[index])
                 }
             }
@@ -183,7 +184,7 @@ struct QHExcelConfig {
         if columnContents.isEmpty == false {
             let firstColumnConents = columnContents[0]
             /// 第一列的size信息
-            fistColumnSize = firstColumnConents.map { self.calContentSize(contents: [$0], isMenu: true, isFirstColuom: false)}
+            fistColumnSize = firstColumnConents.map { self.calContentSize(contents: [$0], isMenu: false, isFirstColuom: true)}
             
             columnContents.removeFirst()
             
@@ -193,21 +194,23 @@ struct QHExcelConfig {
         
         /// 构建每行的高度
         for (index,size) in fistColumnSize.enumerated() {
-            resultHeight.append(max(size.width, rowHeight[index]))
+            resultHeight.append(max(size.height, rowHeight[index]))
         }
         
         resultHeight.insert(menuHeight, at: 0)
         if self.showMenu  {
             if resultHeight.count < self.row + 1 {
                 for _ in 0..<((self.row + 1) - resultHeight.count) {
-                    resultHeight.append(self.contentMinHeight)
+                    let min = resultHeight.min() ?? 0
+                    resultHeight.append(min)
                 }
             }
         }
         else {
             if resultHeight.count < self.row {
                 for _ in 0..<(self.row - resultHeight.count) {
-                    resultHeight.append(self.contentMinHeight)
+                    let min = resultHeight.min() ?? 0
+                    resultHeight.append(min)
                 }
             }
         }
@@ -218,56 +221,47 @@ struct QHExcelConfig {
         if self.showMenu {
             
             if !menuWidths.isEmpty {
-                let firstWidth = max(fistColumnSize.max { $0.width > $1.width }?.width ?? self.contentMinWidth, menuWidths[0])
+                let firstWidth = max(fistColumnSize.max { $0.width < $1.width }?.width ?? 0, menuWidths[0])
                 ressultWidth.append(firstWidth)
                 for (index,item) in contentSize.enumerated() {
                     ressultWidth.append(max(item.width, menuWidths[index + 1]))
                 }
             }
             else {
-                let firstWidth = fistColumnSize.max { $0.width > $1.width }?.width ?? self.contentMinWidth
+                let firstWidth = fistColumnSize.max { $0.width < $1.width }?.width ?? 0
                 ressultWidth.append(firstWidth)
                 ressultWidth.append(contentsOf: contentSize.map{ $0.width})
             }
         }
         else {
-            let firstWidth = fistColumnSize.max { $0.width > $1.width }?.width ?? self.contentMinWidth
+            let firstWidth = fistColumnSize.max { $0.width < $1.width }?.width ?? 0
             ressultWidth.append(firstWidth)
             ressultWidth.append(contentsOf: contentSize.map{ $0.width})
         }
         
         if ressultWidth.count < self.column {
             for _ in 0..<(self.column -  ressultWidth.count) {
-                ressultWidth.append(self.contentMinWidth)
+                let min = ressultWidth.min() ?? 0
+                ressultWidth.append(min)
             }
         }
         
         let totalWidth = ressultWidth.reduce(0) { $0 + $1 }
         
         if totalWidth < self.collectionViewWidth {
-            let avgWidth = self.collectionViewWidth / CGFloat(self.column)
-            for index in 0..<self.column {
-                if ressultWidth[index] > avgWidth {
-                    self.contentsWidths.append(ressultWidth[index])
-
-                }
-                else {
-                    self.contentsWidths.append(avgWidth)
-
-                }
+            if self.column > 0 {
+                self.itemSpacing = (self.collectionViewWidth - totalWidth) / CGFloat(self.column + 1)
             }
         }
-        else {
-            self.contentsWidths = ressultWidth
-        }
+
         
-        //self.contentsWidths = ressultWidth
+        self.contentsWidths = ressultWidth
         self.contentsHeights = resultHeight
         
     }
     
     private func calContentSize(contents:  [QHExcelModel],isMenu: Bool,isFirstColuom: Bool) -> CGSize {
-        guard contents.isEmpty == false else { return CGSize(width: self.contentMinWidth, height: self.contentMinHeight)}
+        guard contents.isEmpty == false else { return CGSize(width: 0, height: 0)}
         var width: CGFloat = 0
         
         var iconHeight: CGFloat = 0
@@ -281,7 +275,7 @@ struct QHExcelConfig {
         
         switch info {
         case (true,true):
-            font = self.contentFont
+            font = self.menuTitleFont
         case (true,false):
             font = self.menuTitleFont
         case (false,true):
@@ -290,15 +284,15 @@ struct QHExcelConfig {
             font = self.contentFont
         }
         
-        
+
         
         let maxContent = contents.reduce(contents[0]) { (pre, next) -> QHExcelModel in
             let preImage = pre.icon != nil ? 1 : 0
-            let preTitleCount = pre.title != nil ? pre.title!.count : 0
-            let preSum = preImage + preTitleCount
+            let preTitleCount = pre.title != nil ? NSAttributedString(string: pre.title!, attributes: [NSAttributedString.Key.font : font]).size().width : 0
+            let preSum = CGFloat(preImage) + preTitleCount
             let nextImage = next.icon != nil ? 1 : 0
-            let nexTitleCount = next.title != nil ? next.title!.count : 0
-            let nextSum = nextImage + nexTitleCount
+            let nexTitleCount = next.title != nil ? NSAttributedString(string: next.title!, attributes: [NSAttributedString.Key.font : font]).size().width : 0
+            let nextSum = CGFloat(nextImage) + nexTitleCount
             return max(preSum, nextSum) == preSum ? pre : next
         }
         
@@ -350,6 +344,6 @@ struct QHExcelConfig {
         let height = max(iconHeight,titleHeight) + self.contentEdgeInsets.top + self.contentEdgeInsets.bottom
         
         
-        return CGSize(width: width == 0 ? self.contentMinWidth : width, height: height == 0 ? self.contentMinHeight : height)
+        return CGSize(width: width, height: height)
     }
 }

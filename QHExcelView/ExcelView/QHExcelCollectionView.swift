@@ -14,7 +14,8 @@ class QHExcelCollectionView: UICollectionView {
     // MARK: - initial methods
     init(config: QHExcelConfig) {
         self.config = config
-        let layout = QHExcelCollectionViewLayout(config: config)
+        let layout = QHExcelCollectionViewLayout()
+        layout.config = config
         super.init(frame: .zero, collectionViewLayout: layout)
         self.backgroundColor = .white
         self.register(QHExcelCell.self, forCellWithReuseIdentifier: kQHExcelCellTextIdentifier)
@@ -24,7 +25,12 @@ class QHExcelCollectionView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let config: QHExcelConfig
+    var config: QHExcelConfig {
+        didSet {
+            guard let layout = self.collectionViewLayout as? QHExcelCollectionViewLayout else { return }
+            layout.config = self.config
+        }
+    }
     
     
     override func layoutSubviews() {

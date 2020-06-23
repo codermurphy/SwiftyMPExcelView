@@ -131,8 +131,8 @@ class QHExcelCell: UICollectionViewCell {
 
         let needShowXAxia = config.showMenu ? column.section < config.row : column.row < config.row - 1
         self.contentView.addSubview(self.yAxisLine)
-        self.yAxisLine.isHidden = !(config.showXAisLine && needShowXAxia)
-        self.yAxisLine.frame = CGRect(x: 0, y: self.bounds.height - config.yAxisHeight, width: self.bounds.width, height: config.yAxisHeight )
+        self.yAxisLine.isHidden = column.section == 0 ? false : !(config.showXAisLine && needShowXAxia)
+        self.yAxisLine.frame = CGRect(x: -config.itemSpacing, y: self.bounds.height - config.yAxisHeight, width: self.bounds.width + config.itemSpacing * 2, height: config.yAxisHeight )
         self.yAxisLine.backgroundColor = config.yAxisColor
     }
     

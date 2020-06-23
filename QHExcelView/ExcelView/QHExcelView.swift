@@ -16,6 +16,17 @@ protocol QHExcelViewDelegate: NSObjectProtocol {
 class QHExcelView: UIView {
     
     // MARK: - initial methods
+    
+    init() {
+        self.config = QHExcelConfig(column: 0, menu: [], contents: [])
+        super.init(frame: .zero)
+        self.addSubview(self.contentView)
+        if config.showBorder  {
+            self.layer.borderColor = config.borderColor.cgColor
+            self.layer.borderWidth = config.borderWidth
+        }
+    }
+    
      init(config: QHExcelConfig) {
         self.config = config
         super.init(frame: .zero)
@@ -52,7 +63,12 @@ class QHExcelView: UIView {
     
     // MARK: - property
     
-    private var config: QHExcelConfig
+    var config: QHExcelConfig {
+        didSet {
+            self.contentView.config = self.config
+            self.contentView.reloadData()
+        }
+    }
     
     weak var delegate: QHExcelViewDelegate?
 
