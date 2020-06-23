@@ -26,13 +26,28 @@ class QHExcelView: UIView {
         }
         
     }
-    
 
-    
-
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - 刷新菜单栏
+    func reloadMenus(menus: [QHExcelModel]) {
+        
+        if self.config.showMenu {
+            self.config.menuContents.removeAll()
+            self.config.menuContents.append(contentsOf: menus)
+            self.config.calFitWidthAndHeights()
+            self.contentView.reloadData()
+        }
+    }
+    
+    // MARK: - 刷新内容
+    func reloadContents(contents: [QHExcelModel]) {
+        self.config.contents.removeAll()
+        self.config.contents.append(contentsOf: contents)
+        self.config.calFitWidthAndHeights()
+        self.contentView.reloadData()
     }
     
     // MARK: - property
@@ -96,9 +111,9 @@ extension QHExcelView: UICollectionViewDataSource {
                     cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: true,isFirstColumn: false,config: self.config)
                 }
             default:
-                if indexPath.section - 1 < self.config.contents.count {
-                    if indexPath.item  < self.config.contents[indexPath.section - 1].count {
-                        let element = self.config.contents[indexPath.section - 1][indexPath.item]
+                if indexPath.section - 1 < self.config._contents.count {
+                    if indexPath.item  < self.config._contents[indexPath.section - 1].count {
+                        let element = self.config._contents[indexPath.section - 1][indexPath.item]
                         if indexPath.item == 0 {
                             cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: false,isFirstColumn: true,config: self.config)
                         }
@@ -117,9 +132,9 @@ extension QHExcelView: UICollectionViewDataSource {
             }
         }
         else {
-            if indexPath.section  < self.config.contents.count {
-                if indexPath.item  < self.config.contents[indexPath.section].count {
-                    let element = self.config.contents[indexPath.section][indexPath.item]
+            if indexPath.section  < self.config._contents.count {
+                if indexPath.item  < self.config._contents[indexPath.section].count {
+                    let element = self.config._contents[indexPath.section][indexPath.item]
                     if indexPath.item == 0 {
                         cell.config(icon: element.icon, title: element.title,titleColor: element.titleColor,isMenu: true,isFirstColumn: false,config: self.config)
                     }

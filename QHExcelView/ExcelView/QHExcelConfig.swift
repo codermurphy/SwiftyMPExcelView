@@ -12,11 +12,11 @@ struct QHExcelConfig {
     
     init(column: Int,menu: [QHExcelModel],contents: [QHExcelModel],collectionViewWidth: CGFloat = UIScreen.main.bounds.width) {
         self.column = column
-        let groupContents = contents.group(by: column)
+        let groupContents = contents.mp_group(by: column)
         self.row = groupContents.count
         self.menuContents = menu
         self.showMenu = !menu.isEmpty
-        self.contents = groupContents
+        self.contents = contents
         self.collectionViewWidth = collectionViewWidth
         self.calFitWidthAndHeights()
     }
@@ -106,16 +106,16 @@ struct QHExcelConfig {
     private(set) var column: Int = 0
         
     /// 菜单
-    private(set) var menuContents: [QHExcelModel]
+    var menuContents: [QHExcelModel]
     
     /// 数据源
-    private(set) var contents: [[QHExcelModel]]
+    var contents: [QHExcelModel]
     
     /// 处理数据源 对数据进行分组
-//    var _contents: [[QHExcelModel]] {
-//
-//        return self.contents.group(by: self.column)
-//    }
+    var _contents: [[QHExcelModel]] {
+
+        return self.contents.mp_group(by: self.column)
+    }
     
     /// 所有cell 宽度
     private(set) var contentsWidths: [CGFloat] = []
@@ -132,7 +132,7 @@ struct QHExcelConfig {
     }
     
     /// 获取自适应宽高
-    private mutating func calFitWidthAndHeights() {
+    mutating func calFitWidthAndHeights() {
         
         self.contentsWidths.removeAll()
         self.contentsHeights.removeAll()
@@ -158,7 +158,7 @@ struct QHExcelConfig {
         }
         
         /// 过滤第一列，获取所有非菜单和非第一列的内容
-        let contents = self.contents.map { (element) -> [QHExcelModel] in
+        let contents = self._contents.map { (element) -> [QHExcelModel] in
             var result = element
             result.removeFirst()
             return result
@@ -172,7 +172,7 @@ struct QHExcelConfig {
         var columnContents: [[QHExcelModel]] = []
         for index in 0..<self.column {
             var result: [QHExcelModel] = []
-            for item in self.contents {
+            for item in self._contents {
                 if index < item.count - 1 {
                     result.append(item[index])
                 }

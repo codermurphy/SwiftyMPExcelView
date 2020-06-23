@@ -12,7 +12,7 @@ import Foundation
 extension Array {
     
     
-    func group(by count: Int) -> [[Element]] {
+    func mp_group(by count: Int) -> [[Element]] {
         let result: [[Element]] = self.reduce(into: []) { (group, element) in
             if group.isEmpty {
                 return group.append([element])
