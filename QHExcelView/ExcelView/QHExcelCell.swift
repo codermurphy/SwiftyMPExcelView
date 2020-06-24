@@ -41,15 +41,15 @@ class QHExcelCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+
     }
     
     
     // MARK: -  configContent
     func config(icon: UIImage?,title:String?,titleColor: UIColor? = nil,isMenu: Bool = false,isFirstColumn: Bool = false,config: QHExcelConfig) {
-    
         self.icon.image = icon
         self.icon.isHidden = icon == nil
-        self.titleLabel.text = title
+        self.titleLabel.text = title ?? config.emptyTitle
     
         if isMenu {
             self.titleLabel.font = config.menuTitleFont
@@ -68,12 +68,11 @@ class QHExcelCell: UICollectionViewCell {
                 self.contentView.backgroundColor = config.contentBackgroundColor
             }
         }
-        self.setUpUI(config: config)
+        self.setUpUI(config: config,contentEdgeInsets: isMenu ? config.menuEdggetInset : config.contentEdgeInsets)
     }
     
     // MARK: - property
     var indexPath: IndexPath?
-    
     
     // MARK: - UI
     private let titleLabel: UILabel = {
@@ -99,7 +98,7 @@ class QHExcelCell: UICollectionViewCell {
         return line
     }()
     
-    private func setUpUI(config: QHExcelConfig) {
+    private func setUpUI(config: QHExcelConfig,contentEdgeInsets: UIEdgeInsets) {
         
         if self.icon.isHidden == false {
             
@@ -107,19 +106,21 @@ class QHExcelCell: UICollectionViewCell {
             self.contentView.addSubview(self.icon)
             self.icon.frame.size = config.contentIconSize
 
-            self.icon.frame.origin.x = config.contentEdgeInsets.left
+            self.icon.frame.origin.x = contentEdgeInsets.left
             self.icon.frame.origin.y = (self.bounds.height - self.icon.image!.size.height) * 0.5
             
-            self.titleLabel.frame.origin.x = self.icon.frame.origin.x + self.icon.frame.width + config.titleAndIconMargin
-            self.titleLabel.frame.size.width = self.bounds.width - self.titleLabel.frame.origin.x - config.contentEdgeInsets.right
+            self.titleLabel.frame.origin.x = self.icon.frame.origin.x + config.contentIconSize.width + config.titleAndIconMargin
+            self.titleLabel.frame.size.width = self.bounds.width - self.titleLabel.frame.origin.x - contentEdgeInsets.right
             self.titleLabel.frame.size.height = self.titleLabel.sizeThatFits(CGSize(width: self.titleLabel.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
             self.titleLabel.center.y = self.icon.center.y
+            self.titleLabel.textAlignment = .left
         }
         else {
             self.contentView.addSubview(self.titleLabel)
-            self.titleLabel.frame.origin.x = config.contentEdgeInsets.left
-            self.titleLabel.frame.size.width = self.bounds.width - config.contentEdgeInsets.left - config.contentEdgeInsets.right
+            self.titleLabel.frame.origin.x = contentEdgeInsets.left
+            self.titleLabel.frame.size.width = self.bounds.width - contentEdgeInsets.left - contentEdgeInsets.right
             self.titleLabel.frame.size.height = self.bounds.height
+            self.titleLabel.textAlignment = .center
         }
         
         guard let column = self.indexPath else { return }
@@ -132,8 +133,7 @@ class QHExcelCell: UICollectionViewCell {
         let needShowXAxia = config.showMenu ? column.section < config.row : column.row < config.row - 1
         self.contentView.addSubview(self.yAxisLine)
         self.yAxisLine.isHidden = column.section == 0 ? false : !(config.showXAisLine && needShowXAxia)
-        self.yAxisLine.frame = CGRect(x: -config.itemSpacing, y: self.bounds.height - config.yAxisHeight, width: self.bounds.width + config.itemSpacing * 2, height: config.yAxisHeight )
+        self.yAxisLine.frame = CGRect(x: 0, y: self.bounds.height - config.yAxisHeight, width: self.bounds.width, height: config.yAxisHeight )
         self.yAxisLine.backgroundColor = config.yAxisColor
     }
-    
 }

@@ -41,11 +41,11 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
     private var columnCount: Int {
         return self.config.column
     }
-    
-    /// item直接的间距
-    var itemSpacing: CGFloat  {
-        return self.config.itemSpacing
-    }
+
+//    /// item直接的间距
+//    var itemSpacing: CGFloat  {
+//        return self.config.itemSpacing
+//    }
     
     /// 最后的横坐标
     private var lastOffsetX: CGFloat = 0
@@ -135,6 +135,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         
         var size: CGSize = .zero
         
+        
         if let delegate = self.collectionView?.delegate as? QHExcelCollectionViewLayoutDelegate {
             size = delegate.collectionView(self.collectionView!, layout: self, sizeForItemAt: indexPath)
         }
@@ -180,14 +181,14 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
     private func layoutItemWithoutLock(attr: UICollectionViewLayoutAttributes,indexPath: IndexPath,size: CGSize) {
         if let nonilLastAttr = self.lastAttr {
             if nonilLastAttr.indexPath.section == indexPath.section {
-                attr.frame = CGRect(x: nonilLastAttr.frame.origin.x + nonilLastAttr.frame.width + self.itemSpacing, y: nonilLastAttr.frame.origin.y, width: size.width, height: size.height)
+                attr.frame = CGRect(x: nonilLastAttr.frame.origin.x + nonilLastAttr.frame.width, y: nonilLastAttr.frame.origin.y, width: size.width, height: size.height)
             }
             else {
-                attr.frame = CGRect(x: self.itemSpacing, y: nonilLastAttr.frame.origin.y + nonilLastAttr.frame.height, width: size.width, height: size.height)
+                attr.frame = CGRect(x: 0, y: nonilLastAttr.frame.origin.y + nonilLastAttr.frame.height, width: size.width, height: size.height)
             }
         }
         else {
-            attr.frame = CGRect(x: self.itemSpacing, y: 0, width: size.width, height: size.height)
+            attr.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         }
 
         self.lastAttr = attr
@@ -197,21 +198,21 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
     private func layoutItemLcckFirtCell(attr: UICollectionViewLayoutAttributes,indexPath: IndexPath,size: CGSize) {
         
         if indexPath.section == 0 && indexPath.item == 0 {
-            attr.frame = CGRect(x: self.collectionView!.contentOffset.x + self.itemSpacing, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+            attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
             attr.zIndex = 999
             self.xAaixLastOffsetX = size.width
         }
         else {
             if let nonilLastAttr = self.lastAttr {
                 if nonilLastAttr.indexPath.section == indexPath.section {
-                    attr.frame = CGRect(x: nonilLastAttr.frame.origin.x + nonilLastAttr.frame.width + self.itemSpacing, y: nonilLastAttr.frame.origin.y, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: nonilLastAttr.frame.origin.x + nonilLastAttr.frame.width, y: nonilLastAttr.frame.origin.y, width: size.width, height: size.height)
                 }
                 else {
-                    attr.frame = CGRect(x: self.itemSpacing, y: nonilLastAttr.frame.origin.y + nonilLastAttr.frame.height, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: 0, y: nonilLastAttr.frame.origin.y + nonilLastAttr.frame.height, width: size.width, height: size.height)
                 }
             }
             else {
-                attr.frame = CGRect(x: self.xAaixLastOffsetX + self.itemSpacing, y: 0, width: size.width, height: size.height)
+                attr.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
             }
 
             self.lastAttr = attr
@@ -229,7 +230,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         if sortItem.contains(indexPath.item) {
 
             if indexPath.item == 0 {
-                attr.frame = CGRect(x: self.collectionView!.contentOffset.x + self.itemSpacing, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+                attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
 
             }
             else {
@@ -237,7 +238,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
                 attr.frame = CGRect(x: self.xAaixLastOffsetX, y: firstAttr.frame.origin.y, width: size.width, height: size.height)
             }
             attr.zIndex = 999
-            self.xAaixLastOffsetX = attr.frame.origin.x + size.width + self.itemSpacing
+            self.xAaixLastOffsetX = attr.frame.origin.x + size.width
             self.yAasixLastOffsetY = indexPath.section == 0 ? firstHeight : attr.frame.origin.y + size.height
 
             self.yAaixAtts.append(attr)
@@ -247,13 +248,13 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
             
             if let lastAttr = self.lastAttr {
                 if lastAttr.indexPath.section ==  indexPath.section {
-                    attr.frame = CGRect(x: lastAttr.frame.width + lastAttr.frame.origin.x + self.itemSpacing, y: lastAttr.frame.origin.y, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: lastAttr.frame.width + lastAttr.frame.origin.x, y: lastAttr.frame.origin.y, width: size.width, height: size.height)
                 }
                 else {
                     let sectionAttrs = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section })
                     let widths = sectionAttrs.map { $0.frame.width}
                     let totalWidth = widths.reduce(0) { $0 + $1 }
-                    attr.frame = CGRect(x: totalWidth + self.itemSpacing, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: totalWidth, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
                 }
 
             }
@@ -261,7 +262,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
                 let sectionAttrs = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section })
                 let widths = sectionAttrs.map { $0.frame.width}
                 let totalWidth = widths.reduce(0) { $0 + $1 }
-                attr.frame = CGRect(x: totalWidth + self.itemSpacing, y: 0, width: size.width, height: size.height)
+                attr.frame = CGRect(x: totalWidth, y: 0, width: size.width, height: size.height)
             }
             
             self.lastAttr = attr
@@ -274,7 +275,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         
         /// 为菜单布局
         if indexPath.section == 0 {
-            attr.frame = CGRect(x: self.xAaixLastOffsetX + self.itemSpacing, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+            attr.frame = CGRect(x: self.xAaixLastOffsetX, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
             attr.zIndex = 999
             self.xAaixLastOffsetX = attr.frame.origin.x + attr.frame.size.width
             self.yAasixLastOffsetY = size.height
@@ -284,14 +285,14 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         else {
             if let nonilLastAttr = self.lastAttr {
                 if nonilLastAttr.indexPath.section == indexPath.section {
-                    attr.frame = CGRect(x: nonilLastAttr.frame.origin.x + nonilLastAttr.frame.width + self.itemSpacing, y: nonilLastAttr.frame.origin.y, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: nonilLastAttr.frame.origin.x + nonilLastAttr.frame.width, y: nonilLastAttr.frame.origin.y, width: size.width, height: size.height)
                 }
                 else {
-                    attr.frame = CGRect(x: self.itemSpacing, y: nonilLastAttr.frame.origin.y + nonilLastAttr.frame.height, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: 0, y: nonilLastAttr.frame.origin.y + nonilLastAttr.frame.height, width: size.width, height: size.height)
                 }
             }
             else {
-                attr.frame = CGRect(x: self.itemSpacing, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+                attr.frame = CGRect(x: 0, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
             }
 
             self.lastAttr = attr
@@ -305,15 +306,15 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         if indexPath.item == 0 {
             
             if indexPath.section == 0 {
-                attr.frame = CGRect(x: self.collectionView!.contentOffset.x + self.itemSpacing, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+                attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
             }
             else {
-              attr.frame = CGRect(x: self.collectionView!.contentOffset.x + self.itemSpacing, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+              attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
             }
 
             attr.zIndex = 999
             self.yAasixLastOffsetY = attr.frame.origin.y + size.height
-            self.xAaixLastOffsetX = size.width + self.itemSpacing
+            self.xAaixLastOffsetX = size.width
             self.yAaixAtts.append(attr)
         }
         else {
@@ -321,30 +322,30 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
             if indexPath.section == 0 {
                 guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
                 if indexPath.item == 1 {
-                    attr.frame = CGRect(x: firstAttr.frame.width + self.collectionView!.contentOffset.x + self.itemSpacing, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: firstAttr.frame.width + self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
                 }
                 else {
                     attr.frame = CGRect(x: self.xAaixLastOffsetX, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
 
                 }
                 attr.zIndex = 999
-                self.xAaixLastOffsetX = attr.frame.origin.x + attr.frame.size.width + self.itemSpacing
+                self.xAaixLastOffsetX = attr.frame.origin.x + attr.frame.size.width
                 self.xAaixAtts.append(attr)
             }
             else {
                 if let lastAttr = self.lastAttr {
                     if lastAttr.indexPath.section ==  indexPath.section {
-                        attr.frame = CGRect(x: lastAttr.frame.width + lastAttr.frame.origin.x + self.itemSpacing, y: lastAttr.frame.origin.y, width: size.width, height: size.height)
+                        attr.frame = CGRect(x: lastAttr.frame.width + lastAttr.frame.origin.x, y: lastAttr.frame.origin.y, width: size.width, height: size.height)
                     }
                     else {
                         guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                        attr.frame = CGRect(x: firstAttr.frame.width + self.itemSpacing, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
+                        attr.frame = CGRect(x: firstAttr.frame.width, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
                     }
 
                 }
                 else {
                     guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                    attr.frame = CGRect(x: firstAttr.frame.width + self.itemSpacing, y: firstAttr.frame.height, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: firstAttr.frame.width, y: firstAttr.frame.height, width: size.width, height: size.height)
                 }
                 
                 self.lastAttr = attr

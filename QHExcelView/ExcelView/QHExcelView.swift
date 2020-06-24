@@ -29,6 +29,7 @@ class QHExcelView: UIView {
     
      init(config: QHExcelConfig) {
         self.config = config
+        self.config.calFitWidthAndHeights()
         super.init(frame: .zero)
         self.addSubview(self.contentView)
         if config.showBorder  {
@@ -65,6 +66,7 @@ class QHExcelView: UIView {
     
     var config: QHExcelConfig {
         didSet {
+            self.config.calFitWidthAndHeights()
             self.contentView.config = self.config
             self.contentView.reloadData()
         }
@@ -83,9 +85,20 @@ class QHExcelView: UIView {
             self.contentView.showsHorizontalScrollIndicator = self.showsHorizontalScrollIndicator
         }
     }
+    
+    var contentOffSet: CGPoint {
+        set {
+            self.contentView.contentOffset = newValue
+        }
+        get {
+            return self.contentView.contentOffset
+        }
+    }
 
     // MARK: - UI
-    private lazy var contentView: QHExcelCollectionView = {
+    
+    
+    private(set) lazy var contentView: QHExcelCollectionView = {
         
         let collectionView = QHExcelCollectionView(config: self.config)
         collectionView.dataSource = self
@@ -176,6 +189,7 @@ extension QHExcelView: UICollectionViewDataSource {
 // MARK: - QHExcelCollectionViewLayoutDelegate
 extension QHExcelView: QHExcelCollectionViewLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         return CGSize(width: self.config.contentsWidths[indexPath.item], height: self.config.contentsHeights[indexPath.section])
     }
     

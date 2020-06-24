@@ -95,6 +95,8 @@ struct QHExcelConfig {
     
     /// cell内容边距
     var contentEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
+    
+    var menuEdggetInset: UIEdgeInsets = .zero
 
     
     var emptyTitle: String = "--"
@@ -248,14 +250,25 @@ struct QHExcelConfig {
         
         let totalWidth = ressultWidth.reduce(0) { $0 + $1 }
         
+        
         if totalWidth < self.collectionViewWidth {
             if self.column > 0 {
                 self.itemSpacing = (self.collectionViewWidth - totalWidth) / CGFloat(self.column + 1)
             }
         }
+        
+        for (index,width) in ressultWidth.enumerated() {
+            
+            if index == 0 || index == ressultWidth.count - 1 {
+                self.contentsWidths.append(width + self.itemSpacing + self.itemSpacing * 0.5)
+            }
+            else {
+                self.contentsWidths.append(width + self.itemSpacing)
+            }
+        }
 
         
-        self.contentsWidths = ressultWidth
+        //self.contentsWidths = ressultWidth.map { $0 + self.itemSpacing + self.itemSpacing * 0.5 }
         self.contentsHeights = resultHeight
         
     }
@@ -272,25 +285,29 @@ struct QHExcelConfig {
         var font: UIFont = self.contentFont
 
         let info = (isMenu,isFirstColuom)
-        
+        var edgeInset: UIEdgeInsets = .zero
         switch info {
         case (true,true):
             font = self.menuTitleFont
+            edgeInset = self.menuEdggetInset
         case (true,false):
             font = self.menuTitleFont
+            edgeInset = self.menuEdggetInset
         case (false,true):
             font = self.firstColumnFont
+            edgeInset = self.contentEdgeInsets
         case (false,false):
+            edgeInset = self.contentEdgeInsets
             font = self.contentFont
         }
         
 
         
         let maxContent = contents.reduce(contents[0]) { (pre, next) -> QHExcelModel in
-            let preImage = pre.icon != nil ? 1 : 0
+            let preImage = pre.icon != nil ? self.contentIconSize.width : 0
             let preTitleCount = pre.title != nil ? NSAttributedString(string: pre.title!, attributes: [NSAttributedString.Key.font : font]).size().width : 0
             let preSum = CGFloat(preImage) + preTitleCount
-            let nextImage = next.icon != nil ? 1 : 0
+            let nextImage = next.icon != nil ? self.contentIconSize.width : 0
             let nexTitleCount = next.title != nil ? NSAttributedString(string: next.title!, attributes: [NSAttributedString.Key.font : font]).size().width : 0
             let nextSum = CGFloat(nextImage) + nexTitleCount
             return max(preSum, nextSum) == preSum ? pre : next
@@ -306,42 +323,42 @@ struct QHExcelConfig {
             var size = attrString.size()
             
             if iconWidth != 0 {
-                if size.width + iconWidth + self.titleAndIconMargin + self.contentEdgeInsets.left + self.contentEdgeInsets.right > self.contentMaxWidth {
+                if size.width + iconWidth + self.titleAndIconMargin + edgeInset.left + edgeInset.right > self.contentMaxWidth {
                     
-                    let rect = CGSize(width: self.contentMaxWidth - (iconWidth + self.titleAndIconMargin + self.contentEdgeInsets.left + self.contentEdgeInsets.right), height: CGFloat.greatestFiniteMagnitude)
+                    let rect = CGSize(width: self.contentMaxWidth - (iconWidth + self.titleAndIconMargin + edgeInset.left + edgeInset.right), height: CGFloat.greatestFiniteMagnitude)
                     
                     size = attrString.boundingRect(with: rect, options: [.usesLineFragmentOrigin,.usesFontLeading], context: nil).size
                         
                     titleWidth = rect.width
                     titleHeight = size.height
-                    width = titleWidth + iconWidth + self.titleAndIconMargin + self.contentEdgeInsets.left + self.contentEdgeInsets.right
+                    width = titleWidth + iconWidth + self.titleAndIconMargin + edgeInset.left + edgeInset.right
                     
                 }
                 else {
                     titleWidth = size.width
                     titleHeight = size.height
-                    width = titleWidth + iconWidth + self.titleAndIconMargin + self.contentEdgeInsets.left + self.contentEdgeInsets.right
+                    width = titleWidth + iconWidth + self.titleAndIconMargin + edgeInset.left + edgeInset.right
                 }
             }
             else {
-                if size.width + self.contentEdgeInsets.left + self.contentEdgeInsets.right > self.contentMaxWidth {
-                    let rect = CGSize(width: self.contentMaxWidth - (self.contentEdgeInsets.left + self.contentEdgeInsets.right), height: CGFloat.greatestFiniteMagnitude)
+                if size.width + edgeInset.left + edgeInset.right > self.contentMaxWidth {
+                    let rect = CGSize(width: self.contentMaxWidth - (edgeInset.left + edgeInset.right), height: CGFloat.greatestFiniteMagnitude)
                                            
                     size = attrString.boundingRect(with: rect, options: [.usesLineFragmentOrigin,.usesFontLeading], context: nil).size
                     
                     titleWidth = rect.width
                     titleHeight = size.height
-                    width = titleWidth + self.contentEdgeInsets.left + self.contentEdgeInsets.right
+                    width = titleWidth + edgeInset.left + edgeInset.right
                 }
                 else {
                     titleWidth = size.width
                     titleHeight = size.height
-                    width = titleWidth + self.contentEdgeInsets.left + self.contentEdgeInsets.right
+                    width = titleWidth + edgeInset.left + edgeInset.right
                 }
             }
         }
         
-        let height = max(iconHeight,titleHeight) + self.contentEdgeInsets.top + self.contentEdgeInsets.bottom
+        let height = max(iconHeight,titleHeight) + edgeInset.top + edgeInset.bottom
         
         
         return CGSize(width: width, height: height)
