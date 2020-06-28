@@ -55,17 +55,20 @@ class QHExcelCell: UICollectionViewCell {
             self.titleLabel.font = config.menuTitleFont
             self.titleLabel.textColor = titleColor ?? config.menuTitleColor
             self.contentView.backgroundColor = config.menuBackgroundColor
+            self.titleLabel.numberOfLines = config.menuLineNubmer
         }
         else {
             if isFirstColumn {
                 self.titleLabel.font = config.firstColumnFont
                 self.titleLabel.textColor = titleColor ?? config.firstColumnColor
                 self.contentView.backgroundColor = config.firstColumnBackgroundColor
+                self.titleLabel.numberOfLines = config.contentLineNubmer
             }
             else {
                 self.titleLabel.font = config.contentFont
                 self.titleLabel.textColor = config.contentColor
                 self.contentView.backgroundColor = config.contentBackgroundColor
+                self.titleLabel.numberOfLines = config.contentLineNubmer
             }
         }
         self.setUpUI(config: config,contentEdgeInsets: isMenu ? config.menuEdggetInset : config.contentEdgeInsets)
@@ -78,8 +81,7 @@ class QHExcelCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.lineBreakMode = .byTruncatingMiddle
-        label.numberOfLines = 0
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -128,12 +130,12 @@ class QHExcelCell: UICollectionViewCell {
         self.contentView.addSubview(self.xAxisLine)
         self.xAxisLine.isHidden = !(needShowYAxia && config.showYAxiaiLine)
         self.xAxisLine.frame = CGRect(x: self.bounds.width - config.xAxisHWidth, y: 0, width: config.xAxisHWidth, height: self.bounds.height)
-        self.xAxisLine.backgroundColor = config.xAxisColor
+        self.xAxisLine.backgroundColor = config.yAxisColor
 
         let needShowXAxia = config.showMenu ? column.section < config.row : column.row < config.row - 1
         self.contentView.addSubview(self.yAxisLine)
         self.yAxisLine.isHidden = column.section == 0 ? false : !(config.showXAisLine && needShowXAxia)
         self.yAxisLine.frame = CGRect(x: 0, y: self.bounds.height - config.yAxisHeight, width: self.bounds.width, height: config.yAxisHeight )
-        self.yAxisLine.backgroundColor = config.yAxisColor
+        self.yAxisLine.backgroundColor = config.xAxisColor
     }
 }

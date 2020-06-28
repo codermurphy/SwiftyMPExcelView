@@ -300,54 +300,79 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         
     }
     
-    /// 锁定菜单栏和第一列
+    /// 锁定菜单栏和列
     private func layoutItemWithLockMenuAndFirstColumn(attr: UICollectionViewLayoutAttributes,indexPath: IndexPath,size: CGSize) {
-        ///为第一列布局
-        if indexPath.item == 0 {
-            
+        
+        
+        ///为锁定列布局
+        let sortItem = self.config.lockColumnItems.sorted { $0 < $1}
+        
+        let firstHeight = self.config.contentsHeights[0]
+        if sortItem.contains(indexPath.item) {
+
             if indexPath.section == 0 {
-                attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+                if indexPath.item == 0 {
+                    attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+
+                }
+                else {
+                    attr.frame = CGRect(x: self.xAaixLastOffsetX, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+                }
+                attr.zIndex = 999
+
+                self.yAasixLastOffsetY = size.height
             }
             else {
-              attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+                guard let firstAttr = self.yAaixAtts.last else { return }
+                if indexPath.item == 0 {
+                    attr.frame = CGRect(x: self.collectionView!.contentOffset.x, y: self.yAasixLastOffsetY, width: size.width, height: size.height)
+
+                }
+                else {
+                   attr.frame = CGRect(x: self.xAaixLastOffsetX, y: firstAttr.frame.origin.y, width: size.width, height: size.height)
+                }
+                attr.zIndex = 998
+                self.yAasixLastOffsetY = attr.frame.origin.y + size.height
+                
             }
 
-            attr.zIndex = 999
-            self.yAasixLastOffsetY = attr.frame.origin.y + size.height
-            self.xAaixLastOffsetX = size.width
+            self.xAaixLastOffsetX = attr.frame.origin.x + size.width
+
             self.yAaixAtts.append(attr)
+            
         }
         else {
             
             if indexPath.section == 0 {
-                guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                if indexPath.item == 1 {
-                    attr.frame = CGRect(x: firstAttr.frame.width + self.collectionView!.contentOffset.x, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
+                let totalWidth = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section }).map( { $0.frame.width}).reduce(0, { $0 + $1})
+                guard let lastItem = sortItem.last else { return }
+                if indexPath.item == lastItem + 1 {
+                    attr.frame = CGRect(x: totalWidth, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
                 }
                 else {
                     attr.frame = CGRect(x: self.xAaixLastOffsetX, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
 
                 }
-                attr.zIndex = 999
+                attr.zIndex = 998
                 self.xAaixLastOffsetX = attr.frame.origin.x + attr.frame.size.width
                 self.xAaixAtts.append(attr)
             }
             else {
+                let totalWidth = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section }).map( { $0.frame.width}).reduce(0, { $0 + $1})
+
                 if let lastAttr = self.lastAttr {
                     if lastAttr.indexPath.section ==  indexPath.section {
                         attr.frame = CGRect(x: lastAttr.frame.width + lastAttr.frame.origin.x, y: lastAttr.frame.origin.y, width: size.width, height: size.height)
                     }
                     else {
-                        guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                        attr.frame = CGRect(x: firstAttr.frame.width, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
+                        attr.frame = CGRect(x: totalWidth, y: lastAttr.frame.origin.y + lastAttr.frame.height, width: size.width, height: size.height)
                     }
 
                 }
                 else {
-                    guard let firstAttr = self.yAaixAtts.first(where: {$0.indexPath.section == indexPath.section}) else { return }
-                    attr.frame = CGRect(x: firstAttr.frame.width, y: firstAttr.frame.height, width: size.width, height: size.height)
+                    attr.frame = CGRect(x: totalWidth, y: firstHeight, width: size.width, height: size.height)
                 }
-                
+
                 self.lastAttr = attr
             }
             

@@ -56,9 +56,7 @@ class QHExcelView: UIView {
     
     // MARK: - 刷新内容
     func reloadContents(contents: [QHExcelModel]) {
-        self.config.contents.removeAll()
-        self.config.contents.append(contentsOf: contents)
-        self.config.calFitWidthAndHeights()
+        self.config.reloadContents(contents: contents)
         self.contentView.reloadData()
     }
     

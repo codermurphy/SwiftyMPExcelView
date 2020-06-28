@@ -66,7 +66,7 @@ struct QHExcelConfig {
     var menuTitleFont: UIFont = .systemFont(ofSize: 12)
     var menuTitleColor: UIColor = .lightGray
     var menuBackgroundColor: UIColor = .brown
-    
+    var menuLineNubmer: Int = 1
     /// 第一列字体颜色，背景色
     var firstColumnFont: UIFont = .systemFont(ofSize: 14)
     var firstColumnColor: UIColor = .black
@@ -85,6 +85,7 @@ struct QHExcelConfig {
     
     /// cell的最大宽度
     var contentMaxWidth: CGFloat = 100
+    var contentLineNubmer: Int = 1
     
     /// cell的最大最小高度
     var contentMaxHeight: CGFloat = 50
@@ -134,6 +135,14 @@ struct QHExcelConfig {
         return result
     }
     
+    /// 刷新数据
+    mutating func reloadContents(contents: [QHExcelModel]) {
+        self.contents.removeAll()
+        self.contents.append(contentsOf: contents)
+        self.row = contents.mp_group(by: self.column).count
+        self.calFitWidthAndHeights()
+    }
+    
     /// 获取自适应宽高
     mutating func calFitWidthAndHeights() {
         
@@ -156,8 +165,8 @@ struct QHExcelConfig {
         var contentSize: [CGSize] = []
         
         if self.showMenu {
-            menuHeight = self.calContentSize(contents: self.menuContents, isMenu: true, isFirstColuom: false).height
-            menuWidths = self.menuContents.map { self.calContentSize(contents: [$0], isMenu: true, isFirstColuom: false).width}
+            menuHeight = self.calContentSize(contents: self.menuContents, isMenu: true, isFirstColuom: false,needCalHeight: self.menuLineNubmer == 0).height
+            menuWidths = self.menuContents.map { self.calContentSize(contents: [$0], isMenu: true, isFirstColuom: false,needCalHeight: self.menuLineNubmer == 0).width}
         }
         
         /// 过滤第一列，获取所有非菜单和非第一列的内容
@@ -169,7 +178,7 @@ struct QHExcelConfig {
         }
         
         /// 所有非菜单和非第一列的内容每一行高度
-        let rowHeight = contents.map { self.calContentSize(contents: $0, isMenu: false, isFirstColuom: false).height}
+        let rowHeight = contents.map { self.calContentSize(contents: $0, isMenu: false, isFirstColuom: false,needCalHeight: self.contentLineNubmer == 0).height}
         
         /// 列内容
         var columnContents: [[QHExcelModel]] = []
@@ -186,11 +195,11 @@ struct QHExcelConfig {
         if columnContents.isEmpty == false {
             let firstColumnConents = columnContents[0]
             /// 第一列的size信息
-            fistColumnSize = firstColumnConents.map { self.calContentSize(contents: [$0], isMenu: false, isFirstColuom: true)}
+            fistColumnSize = firstColumnConents.map { self.calContentSize(contents: [$0], isMenu: false, isFirstColuom: true,needCalHeight: self.contentLineNubmer == 0)}
             
             columnContents.removeFirst()
             
-            contentSize = columnContents.map { self.calContentSize(contents: $0, isMenu: false, isFirstColuom: false)}
+            contentSize = columnContents.map { self.calContentSize(contents: $0, isMenu: false, isFirstColuom: false,needCalHeight: self.contentLineNubmer == 0)}
             
         }
         
@@ -273,7 +282,7 @@ struct QHExcelConfig {
         
     }
     
-    private func calContentSize(contents:  [QHExcelModel],isMenu: Bool,isFirstColuom: Bool) -> CGSize {
+    private func calContentSize(contents:  [QHExcelModel],isMenu: Bool,isFirstColuom: Bool,needCalHeight: Bool) -> CGSize {
         guard contents.isEmpty == false else { return CGSize(width: 0, height: 0)}
         var width: CGFloat = 0
         
@@ -321,7 +330,7 @@ struct QHExcelConfig {
         if let title = maxContent.title {
             let attrString = NSAttributedString(string: title, attributes: [NSAttributedString.Key.font : font])
             var size = attrString.size()
-            
+            titleHeight = size.height
             if iconWidth != 0 {
                 if size.width + iconWidth + self.titleAndIconMargin + edgeInset.left + edgeInset.right > self.contentMaxWidth {
                     
@@ -330,7 +339,7 @@ struct QHExcelConfig {
                     size = attrString.boundingRect(with: rect, options: [.usesLineFragmentOrigin,.usesFontLeading], context: nil).size
                         
                     titleWidth = rect.width
-                    titleHeight = size.height
+                    if needCalHeight { titleHeight = size.height }
                     width = titleWidth + iconWidth + self.titleAndIconMargin + edgeInset.left + edgeInset.right
                     
                 }
@@ -347,12 +356,11 @@ struct QHExcelConfig {
                     size = attrString.boundingRect(with: rect, options: [.usesLineFragmentOrigin,.usesFontLeading], context: nil).size
                     
                     titleWidth = rect.width
-                    titleHeight = size.height
+                    if needCalHeight { titleHeight = size.height }
                     width = titleWidth + edgeInset.left + edgeInset.right
                 }
                 else {
                     titleWidth = size.width
-                    titleHeight = size.height
                     width = titleWidth + edgeInset.left + edgeInset.right
                 }
             }
