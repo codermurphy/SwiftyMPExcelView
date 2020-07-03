@@ -47,11 +47,6 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
 //        return self.config.itemSpacing
 //    }
     
-    /// 最后的横坐标
-    private var lastOffsetX: CGFloat = 0
-    
-    /// 最后的纵坐标
-    private var lastOffsetY: CGFloat = 0
     
     private var xAaixLastOffsetX: CGFloat = 0
     
@@ -85,8 +80,6 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         self.xAaixAtts.removeAll()
         self.yAaixAtts.removeAll()
         
-        self.lastOffsetX = 0
-        self.lastOffsetY = 0
         self.xAaixLastOffsetX = 0
         self.yAasixLastOffsetY = 0
         self.lastAttr = nil
@@ -128,7 +121,7 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        return self.attributes
+        return self.attributes.filter { $0.frame.intersects(rect)}
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
@@ -344,7 +337,12 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
         else {
             
             if indexPath.section == 0 {
-                let totalWidth = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section }).map( { $0.frame.width}).reduce(0, { $0 + $1})
+                //let totalWidth = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section }).map( { $0.frame.width}).reduce(0, { $0 + $1})
+                let startIndex = sortItem.first!
+                let endIndex = sortItem.last!
+                let totalWidth = self.config.contentsWidths[startIndex...endIndex].reduce(0) {  $0 + $1 }
+                
+                
                 guard let lastItem = sortItem.last else { return }
                 if indexPath.item == lastItem + 1 {
                     attr.frame = CGRect(x: totalWidth, y: self.collectionView!.contentOffset.y, width: size.width, height: size.height)
@@ -358,7 +356,9 @@ class QHExcelCollectionViewLayout: UICollectionViewLayout {
                 self.xAaixAtts.append(attr)
             }
             else {
-                let totalWidth = self.yAaixAtts.filter({ $0.indexPath.section == indexPath.section }).map( { $0.frame.width}).reduce(0, { $0 + $1})
+                let startIndex = sortItem.first!
+                let endIndex = sortItem.last!
+                let totalWidth = self.config.contentsWidths[startIndex...endIndex].reduce(0) {  $0 + $1 }
 
                 if let lastAttr = self.lastAttr {
                     if lastAttr.indexPath.section ==  indexPath.section {

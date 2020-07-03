@@ -12,8 +12,8 @@ struct QHExcelConfig {
     
     init(column: Int,menu: [QHExcelModel],contents: [QHExcelModel],collectionViewWidth: CGFloat = UIScreen.main.bounds.width) {
         self.column = column
-        let groupContents = contents.mp_group(by: column)
-        self.row = groupContents.count
+        self._contents = contents.mp_group(by: column)
+        self.row = self._contents.count
         self.menuContents = menu
         self.showMenu = !menu.isEmpty
         self.contents = contents
@@ -97,7 +97,7 @@ struct QHExcelConfig {
     /// cell内容边距
     var contentEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
     
-    var menuEdggetInset: UIEdgeInsets = .zero
+    var menuEdggetInset: UIEdgeInsets = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
 
     
     var emptyTitle: String = "--"
@@ -116,10 +116,7 @@ struct QHExcelConfig {
     var contents: [QHExcelModel]
     
     /// 处理数据源 对数据进行分组
-    var _contents: [[QHExcelModel]] {
-
-        return self.contents.mp_group(by: self.column)
-    }
+    private(set) var _contents: [[QHExcelModel]] = []
     
     /// 所有cell 宽度
     private(set) var contentsWidths: [CGFloat] = []
@@ -139,7 +136,8 @@ struct QHExcelConfig {
     mutating func reloadContents(contents: [QHExcelModel]) {
         self.contents.removeAll()
         self.contents.append(contentsOf: contents)
-        self.row = contents.mp_group(by: self.column).count
+        self._contents = contents.mp_group(by: self.column)
+        self.row = self._contents.count
         self.calFitWidthAndHeights()
     }
     

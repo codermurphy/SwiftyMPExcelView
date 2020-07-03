@@ -32,11 +32,15 @@ class QHExcelCollectionView: UICollectionView {
         }
     }
     
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-
+    deinit {
+        debugPrint(Self.self)
     }
+    
+    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        
+//
+//    }
 }
 

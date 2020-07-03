@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D367B9C24A0F88200EFDD25 /* Array+QHExcel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */; };
+		4140D2BD6863CED596113442 /* Pods_QHExcelView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B0AD5B519E032757205CAFF /* Pods_QHExcelView.framework */; };
 		F64AB24124A04785001F95CB /* QHExcelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */; };
 		F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24224A07DB7001F95CB /* QHExcelModel.swift */; };
 		F68CCDD2249B3D54005FB517 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDD1249B3D54005FB517 /* AppDelegate.swift */; };
@@ -19,10 +20,13 @@
 		F68CCDE9249B5695005FB517 /* QHExcelCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDE8249B5695005FB517 /* QHExcelCollectionViewLayout.swift */; };
 		F68CCDEB249B6ABD005FB517 /* QHExcelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDEA249B6ABD005FB517 /* QHExcelView.swift */; };
 		F68CCDED249B6E1E005FB517 /* QHExcelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDEC249B6E1E005FB517 /* QHExcelConfig.swift */; };
+		F6D6929E24AF108000429232 /* MPRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D6929D24AF108000429232 /* MPRootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+QHExcel.swift"; sourceTree = "<group>"; };
+		2153BE6F4054EC5D0B58903E /* Pods-QHExcelView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QHExcelView.release.xcconfig"; path = "Target Support Files/Pods-QHExcelView/Pods-QHExcelView.release.xcconfig"; sourceTree = "<group>"; };
+		3B0AD5B519E032757205CAFF /* Pods_QHExcelView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QHExcelView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelCollectionView.swift; sourceTree = "<group>"; };
 		F64AB24224A07DB7001F95CB /* QHExcelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelModel.swift; sourceTree = "<group>"; };
 		F68CCDCE249B3D54005FB517 /* QHExcelView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QHExcelView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -36,6 +40,8 @@
 		F68CCDE8249B5695005FB517 /* QHExcelCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelCollectionViewLayout.swift; sourceTree = "<group>"; };
 		F68CCDEA249B6ABD005FB517 /* QHExcelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelView.swift; sourceTree = "<group>"; };
 		F68CCDEC249B6E1E005FB517 /* QHExcelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelConfig.swift; sourceTree = "<group>"; };
+		F6D6929D24AF108000429232 /* MPRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPRootViewController.swift; sourceTree = "<group>"; };
+		FA897053640B9E6B5BD33B7A /* Pods-QHExcelView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QHExcelView.debug.xcconfig"; path = "Target Support Files/Pods-QHExcelView/Pods-QHExcelView.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,17 +49,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4140D2BD6863CED596113442 /* Pods_QHExcelView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F09258907A408228C6F223E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B0AD5B519E032757205CAFF /* Pods_QHExcelView.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A1479B03C5FD8CEB2F6443F8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FA897053640B9E6B5BD33B7A /* Pods-QHExcelView.debug.xcconfig */,
+				2153BE6F4054EC5D0B58903E /* Pods-QHExcelView.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F68CCDC5249B3D54005FB517 = {
 			isa = PBXGroup;
 			children = (
 				F68CCDD0249B3D54005FB517 /* QHExcelView */,
 				F68CCDCF249B3D54005FB517 /* Products */,
+				A1479B03C5FD8CEB2F6443F8 /* Pods */,
+				6F09258907A408228C6F223E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +96,7 @@
 			children = (
 				F68CCDE5249B4CA5005FB517 /* ExcelView */,
 				F68CCDD1249B3D54005FB517 /* AppDelegate.swift */,
+				F6D6929D24AF108000429232 /* MPRootViewController.swift */,
 				F68CCDD5249B3D54005FB517 /* ViewController.swift */,
 				F68CCDD7249B3D54005FB517 /* Main.storyboard */,
 				F68CCDDA249B3D57005FB517 /* Assets.xcassets */,
@@ -100,6 +127,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F68CCDE2249B3D57005FB517 /* Build configuration list for PBXNativeTarget "QHExcelView" */;
 			buildPhases = (
+				6B8EC991C97DBCAE018E6632 /* [CP] Check Pods Manifest.lock */,
 				F68CCDCA249B3D54005FB517 /* Sources */,
 				F68CCDCB249B3D54005FB517 /* Frameworks */,
 				F68CCDCC249B3D54005FB517 /* Resources */,
@@ -159,6 +187,31 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6B8EC991C97DBCAE018E6632 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QHExcelView-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F68CCDCA249B3D54005FB517 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -173,6 +226,7 @@
 				F64AB24124A04785001F95CB /* QHExcelCollectionView.swift in Sources */,
 				F68CCDD2249B3D54005FB517 /* AppDelegate.swift in Sources */,
 				F68CCDE7249B4CCA005FB517 /* QHExcelCell.swift in Sources */,
+				F6D6929E24AF108000429232 /* MPRootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,9 +368,11 @@
 		};
 		F68CCDE3249B3D57005FB517 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA897053640B9E6B5BD33B7A /* Pods-QHExcelView.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3NCSCA8648;
 				INFOPLIST_FILE = QHExcelView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -332,9 +388,11 @@
 		};
 		F68CCDE4249B3D57005FB517 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2153BE6F4054EC5D0B58903E /* Pods-QHExcelView.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3NCSCA8648;
 				INFOPLIST_FILE = QHExcelView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

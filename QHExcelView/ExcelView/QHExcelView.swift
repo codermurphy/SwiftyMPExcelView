@@ -113,6 +113,10 @@ class QHExcelView: UIView {
         super.layoutSubviews()
         self.contentView.frame = self.bounds
     }
+    
+    deinit {
+        debugPrint(Self.self)
+    }
 
 }
 
@@ -186,6 +190,17 @@ extension QHExcelView: UICollectionViewDataSource {
 
 // MARK: - QHExcelCollectionViewLayoutDelegate
 extension QHExcelView: QHExcelCollectionViewLayoutDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+             
+        if self.config.lockColumn {
+            let offsetX = scrollView.contentOffset.x
+            if offsetX < 0 {
+                scrollView.contentOffset.x = 0
+            }
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: self.config.contentsWidths[indexPath.item], height: self.config.contentsHeights[indexPath.section])

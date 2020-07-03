@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         play.title = "球员"
         
         var time = QHExcelModel()
-        time.icon = UIImage(named: "wode")
+        //time.icon = UIImage(named: "wode")
         time.title = "时间"
         
         var onPlaying = QHExcelModel()
@@ -41,11 +41,23 @@ class ViewController: UIViewController {
         assist.title = "助攻"
         
         var steal = QHExcelModel()
-        steal.title = "抢断"
+        steal.title = "抢断2"
         
-        let menus = [play,time,onPlaying,isFirst,score,backboard,assist,steal]
+        var steal2 = QHExcelModel()
+        steal2.title = "抢断3"
+        
+        var steal3 = QHExcelModel()
+        steal3.title = "抢断4"
+        
+        var steal4 = QHExcelModel()
+        steal4.title = "抢断5"
+        
+        var steal5 = QHExcelModel()
+        steal5.title = "抢断6"
+        
+        let menus = [play,time,onPlaying,isFirst,score,backboard,assist,steal,steal2,steal3,steal4,steal5]
         var contens: [QHExcelModel] = []
-        for index in 0..<50 {
+        for index in 0..<600 {
             var item = QHExcelModel()
             item.title = String(index)
             if index % 8 == 0 {
@@ -54,12 +66,13 @@ class ViewController: UIViewController {
             contens.append(item)
         }
 
-        var config = QHExcelConfig(column: 8,menu: menus, contents: contens)
+        var config = QHExcelConfig(column: menus.count,menu: menus, contents: contens)
+        config.lockMenu = true
         config.lockColumn = true
         config.lockColumnItems = [0,1]
         let contentView = QHExcelView(config: config)
 
-        contentView.frame = CGRect(x: 0, y: 88, width: self.view.bounds.width, height: config.totalHeight)
+        contentView.frame = CGRect(x: 0, y: 88, width: self.view.bounds.width, height: self.view.bounds.height - 88)
         self.view.addSubview(contentView)
         
         
