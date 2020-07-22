@@ -21,6 +21,9 @@
 		F68CCDEB249B6ABD005FB517 /* QHExcelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDEA249B6ABD005FB517 /* QHExcelView.swift */; };
 		F68CCDED249B6E1E005FB517 /* QHExcelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CCDEC249B6E1E005FB517 /* QHExcelConfig.swift */; };
 		F6D6929E24AF108000429232 /* MPRootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D6929D24AF108000429232 /* MPRootViewController.swift */; };
+		F6D9F27724C7EA4F002F3E51 /* MPExcelCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F27624C7EA4F002F3E51 /* MPExcelCellModel.swift */; };
+		F6D9F27924C7EC02002F3E51 /* MPExcelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F27824C7EC02002F3E51 /* MPExcelConfig.swift */; };
+		F6D9F27B24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9F27A24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +44,9 @@
 		F68CCDEA249B6ABD005FB517 /* QHExcelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelView.swift; sourceTree = "<group>"; };
 		F68CCDEC249B6E1E005FB517 /* QHExcelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelConfig.swift; sourceTree = "<group>"; };
 		F6D6929D24AF108000429232 /* MPRootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPRootViewController.swift; sourceTree = "<group>"; };
+		F6D9F27624C7EA4F002F3E51 /* MPExcelCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPExcelCellModel.swift; sourceTree = "<group>"; };
+		F6D9F27824C7EC02002F3E51 /* MPExcelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPExcelConfig.swift; sourceTree = "<group>"; };
+		F6D9F27A24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPExcelCollectionViewLayout.swift; sourceTree = "<group>"; };
 		FA897053640B9E6B5BD33B7A /* Pods-QHExcelView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QHExcelView.debug.xcconfig"; path = "Target Support Files/Pods-QHExcelView/Pods-QHExcelView.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +100,7 @@
 		F68CCDD0249B3D54005FB517 /* QHExcelView */ = {
 			isa = PBXGroup;
 			children = (
+				F6D9F27524C7E819002F3E51 /* MPExcelView */,
 				F68CCDE5249B4CA5005FB517 /* ExcelView */,
 				F68CCDD1249B3D54005FB517 /* AppDelegate.swift */,
 				F6D6929D24AF108000429232 /* MPRootViewController.swift */,
@@ -118,6 +125,16 @@
 				0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */,
 			);
 			path = ExcelView;
+			sourceTree = "<group>";
+		};
+		F6D9F27524C7E819002F3E51 /* MPExcelView */ = {
+			isa = PBXGroup;
+			children = (
+				F6D9F27624C7EA4F002F3E51 /* MPExcelCellModel.swift */,
+				F6D9F27824C7EC02002F3E51 /* MPExcelConfig.swift */,
+				F6D9F27A24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift */,
+			);
+			path = MPExcelView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,7 +236,10 @@
 			files = (
 				F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */,
 				0D367B9C24A0F88200EFDD25 /* Array+QHExcel.swift in Sources */,
+				F6D9F27924C7EC02002F3E51 /* MPExcelConfig.swift in Sources */,
+				F6D9F27B24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift in Sources */,
 				F68CCDD6249B3D54005FB517 /* ViewController.swift in Sources */,
+				F6D9F27724C7EA4F002F3E51 /* MPExcelCellModel.swift in Sources */,
 				F68CCDE9249B5695005FB517 /* QHExcelCollectionViewLayout.swift in Sources */,
 				F68CCDED249B6E1E005FB517 /* QHExcelConfig.swift in Sources */,
 				F68CCDEB249B6ABD005FB517 /* QHExcelView.swift in Sources */,

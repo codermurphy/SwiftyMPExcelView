@@ -18,63 +18,52 @@ class ViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        var play = QHExcelModel()
+        var play = MPExcelCellModel()
+        play.image = UIImage(named: "wode")
         play.title = "球员"
         
-        var time = QHExcelModel()
+        var time = MPExcelCellModel()
         //time.icon = UIImage(named: "wode")
         time.title = "时间"
         
-        var onPlaying = QHExcelModel()
+        var onPlaying = MPExcelCellModel()
         onPlaying.title = "在场"
         
-        var isFirst = QHExcelModel()
+        var isFirst = MPExcelCellModel()
         isFirst.title = "首发"
         
-        var score = QHExcelModel()
+        var score = MPExcelCellModel()
         score.title = "得分"
         
-        var backboard = QHExcelModel()
+        var backboard = MPExcelCellModel()
         backboard.title = "篮板"
         
-        var assist = QHExcelModel()
+        var assist = MPExcelCellModel()
         assist.title = "助攻"
         
-        var steal = QHExcelModel()
-        steal.title = "抢断2"
         
-        var steal2 = QHExcelModel()
-        steal2.title = "抢断3"
-        
-        var steal3 = QHExcelModel()
-        steal3.title = "抢断4"
-        
-        var steal4 = QHExcelModel()
-        steal4.title = "抢断5"
-        
-        var steal5 = QHExcelModel()
-        steal5.title = "抢断6"
-        
-        let menus = [play,time,onPlaying,isFirst,score,backboard,assist,steal,steal2,steal3,steal4,steal5]
-        var contens: [QHExcelModel] = []
-        for index in 0..<600 {
-            var item = QHExcelModel()
+        let menus = [play,time,onPlaying,isFirst,score,backboard,assist]
+        var contens: [MPExcelCellModel] = []
+        for index in 0..<60 {
+            var item = MPExcelCellModel()
             item.title = String(index)
             if index % 8 == 0 {
-                item.titleColor = .red
+                //item.titleColor = .red
             }
             contens.append(item)
         }
-
-        var config = QHExcelConfig(column: menus.count,menu: menus, contents: contens)
-        config.lockMenu = true
-        config.lockColumn = true
-        config.lockColumnItems = [0,1]
-        let contentView = QHExcelView(config: config)
-
-        contentView.frame = CGRect(x: 0, y: 88, width: self.view.bounds.width, height: self.view.bounds.height - 88)
-        self.view.addSubview(contentView)
+//
+//        var config = QHExcelConfig(column: menus.count,menu: menus, contents: contens)
+//        config.lockMenu = true
+//        config.lockColumn = true
+//        config.lockColumnItems = [0,1]
+//        let contentView = QHExcelView(config: config)
+//
+//        contentView.frame = CGRect(x: 0, y: 88, width: self.view.bounds.width, height: self.view.bounds.height - 88)
+//        self.view.addSubview(contentView)
         
+        let layout = MPExcelCollectionViewLayout(configs: MPExcelConfig(), column: menus.count, menus: menus, contents: contens)
+        layout.autoCalCellWidth()
         
 //        var config2 = QHExcelConfig()
 //        config2.row = 5
