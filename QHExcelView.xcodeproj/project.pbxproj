@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0D367B9C24A0F88200EFDD25 /* Array+QHExcel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */; };
+		0DAD846E24EBB1F400CFA93C /* MPExcelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD846D24EBB1F400CFA93C /* MPExcelView.swift */; };
+		0DAD847024EBB87E00CFA93C /* MPExcelCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD846F24EBB87E00CFA93C /* MPExcelCollectionCell.swift */; };
+		0DAD847924EC259800CFA93C /* LinkedFramesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847224EC259800CFA93C /* LinkedFramesList.swift */; };
+		0DAD847A24EC259800CFA93C /* WindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847324EC259800CFA93C /* WindowViewController.swift */; };
+		0DAD847B24EC259800CFA93C /* MarginLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847424EC259800CFA93C /* MarginLabel.swift */; };
+		0DAD847C24EC259800CFA93C /* PerformanceMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847524EC259800CFA93C /* PerformanceMonitor.swift */; };
+		0DAD847D24EC259800CFA93C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847624EC259800CFA93C /* Protocols.swift */; };
+		0DAD847E24EC259800CFA93C /* PerformanceСalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847724EC259800CFA93C /* PerformanceСalculator.swift */; };
+		0DAD847F24EC259800CFA93C /* PerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD847824EC259800CFA93C /* PerformanceView.swift */; };
 		4140D2BD6863CED596113442 /* Pods_QHExcelView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B0AD5B519E032757205CAFF /* Pods_QHExcelView.framework */; };
 		F64AB24124A04785001F95CB /* QHExcelCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */; };
 		F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64AB24224A07DB7001F95CB /* QHExcelModel.swift */; };
@@ -28,6 +37,15 @@
 
 /* Begin PBXFileReference section */
 		0D367B9B24A0F88200EFDD25 /* Array+QHExcel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+QHExcel.swift"; sourceTree = "<group>"; };
+		0DAD846D24EBB1F400CFA93C /* MPExcelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPExcelView.swift; sourceTree = "<group>"; };
+		0DAD846F24EBB87E00CFA93C /* MPExcelCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPExcelCollectionCell.swift; sourceTree = "<group>"; };
+		0DAD847224EC259800CFA93C /* LinkedFramesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkedFramesList.swift; sourceTree = "<group>"; };
+		0DAD847324EC259800CFA93C /* WindowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowViewController.swift; sourceTree = "<group>"; };
+		0DAD847424EC259800CFA93C /* MarginLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarginLabel.swift; sourceTree = "<group>"; };
+		0DAD847524EC259800CFA93C /* PerformanceMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformanceMonitor.swift; sourceTree = "<group>"; };
+		0DAD847624EC259800CFA93C /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		0DAD847724EC259800CFA93C /* PerformanceСalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PerformanceСalculator.swift"; sourceTree = "<group>"; };
+		0DAD847824EC259800CFA93C /* PerformanceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerformanceView.swift; sourceTree = "<group>"; };
 		2153BE6F4054EC5D0B58903E /* Pods-QHExcelView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QHExcelView.release.xcconfig"; path = "Target Support Files/Pods-QHExcelView/Pods-QHExcelView.release.xcconfig"; sourceTree = "<group>"; };
 		3B0AD5B519E032757205CAFF /* Pods_QHExcelView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QHExcelView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F64AB24024A04785001F95CB /* QHExcelCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QHExcelCollectionView.swift; sourceTree = "<group>"; };
@@ -62,6 +80,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0DAD847124EC259800CFA93C /* GDPerformanceMonitoring */ = {
+			isa = PBXGroup;
+			children = (
+				0DAD847224EC259800CFA93C /* LinkedFramesList.swift */,
+				0DAD847324EC259800CFA93C /* WindowViewController.swift */,
+				0DAD847424EC259800CFA93C /* MarginLabel.swift */,
+				0DAD847524EC259800CFA93C /* PerformanceMonitor.swift */,
+				0DAD847624EC259800CFA93C /* Protocols.swift */,
+				0DAD847724EC259800CFA93C /* PerformanceСalculator.swift */,
+				0DAD847824EC259800CFA93C /* PerformanceView.swift */,
+			);
+			path = GDPerformanceMonitoring;
+			sourceTree = "<group>";
+		};
 		6F09258907A408228C6F223E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +132,7 @@
 		F68CCDD0249B3D54005FB517 /* QHExcelView */ = {
 			isa = PBXGroup;
 			children = (
+				0DAD847124EC259800CFA93C /* GDPerformanceMonitoring */,
 				F6D9F27524C7E819002F3E51 /* MPExcelView */,
 				F68CCDE5249B4CA5005FB517 /* ExcelView */,
 				F68CCDD1249B3D54005FB517 /* AppDelegate.swift */,
@@ -133,6 +166,8 @@
 				F6D9F27624C7EA4F002F3E51 /* MPExcelCellModel.swift */,
 				F6D9F27824C7EC02002F3E51 /* MPExcelConfig.swift */,
 				F6D9F27A24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift */,
+				0DAD846D24EBB1F400CFA93C /* MPExcelView.swift */,
+				0DAD846F24EBB87E00CFA93C /* MPExcelCollectionCell.swift */,
 			);
 			path = MPExcelView;
 			sourceTree = "<group>";
@@ -234,19 +269,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0DAD847B24EC259800CFA93C /* MarginLabel.swift in Sources */,
+				0DAD847C24EC259800CFA93C /* PerformanceMonitor.swift in Sources */,
 				F64AB24324A07DB7001F95CB /* QHExcelModel.swift in Sources */,
 				0D367B9C24A0F88200EFDD25 /* Array+QHExcel.swift in Sources */,
+				0DAD847924EC259800CFA93C /* LinkedFramesList.swift in Sources */,
 				F6D9F27924C7EC02002F3E51 /* MPExcelConfig.swift in Sources */,
 				F6D9F27B24C811AE002F3E51 /* MPExcelCollectionViewLayout.swift in Sources */,
 				F68CCDD6249B3D54005FB517 /* ViewController.swift in Sources */,
 				F6D9F27724C7EA4F002F3E51 /* MPExcelCellModel.swift in Sources */,
+				0DAD847E24EC259800CFA93C /* PerformanceСalculator.swift in Sources */,
 				F68CCDE9249B5695005FB517 /* QHExcelCollectionViewLayout.swift in Sources */,
 				F68CCDED249B6E1E005FB517 /* QHExcelConfig.swift in Sources */,
 				F68CCDEB249B6ABD005FB517 /* QHExcelView.swift in Sources */,
+				0DAD847024EBB87E00CFA93C /* MPExcelCollectionCell.swift in Sources */,
 				F64AB24124A04785001F95CB /* QHExcelCollectionView.swift in Sources */,
 				F68CCDD2249B3D54005FB517 /* AppDelegate.swift in Sources */,
+				0DAD847D24EC259800CFA93C /* Protocols.swift in Sources */,
+				0DAD847F24EC259800CFA93C /* PerformanceView.swift in Sources */,
 				F68CCDE7249B4CCA005FB517 /* QHExcelCell.swift in Sources */,
+				0DAD847A24EC259800CFA93C /* WindowViewController.swift in Sources */,
 				F6D6929E24AF108000429232 /* MPRootViewController.swift in Sources */,
+				0DAD846E24EBB1F400CFA93C /* MPExcelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,14 +436,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3NCSCA8648;
+				DEVELOPMENT_TEAM = 27PHP6TYX6;
 				INFOPLIST_FILE = QHExcelView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qihe.QHExcelView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.murphy.QHExcelView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -412,14 +456,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3NCSCA8648;
+				DEVELOPMENT_TEAM = 27PHP6TYX6;
 				INFOPLIST_FILE = QHExcelView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.qihe.QHExcelView;
+				PRODUCT_BUNDLE_IDENTIFIER = com.murphy.QHExcelView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

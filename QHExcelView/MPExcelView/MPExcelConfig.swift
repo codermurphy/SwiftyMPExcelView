@@ -21,14 +21,14 @@ public class MPExcelConfig {
     public enum  MPExcelLockStyle {
         /// 不锁定
         case none
-        /// 锁定菜单栏
-        case menu
+        /// 锁定行 以 1 开始
+        case row([Int])
         /// 锁定第一个单元格
         case firstCell
-        /// 锁定列 必须按正序排序
+        /// 锁定列 以 1 开始
         case columns([Int])
-        /// 锁定菜单栏和列 必须按正序排序
-        case both([Int])
+        /// 锁定行和列
+        case both([Int],[Int])
     }
     
     public enum MPExcelGridLineStyle {
@@ -50,19 +50,26 @@ public class MPExcelConfig {
     public var showMenu: Bool = true
     
     /// 锁定类型
-    public var lockStyle: MPExcelLockStyle = .menu
+    public var lockStyle: MPExcelLockStyle = .none
     public var lockColumns: [Int] {
         switch self.lockStyle {
-        case .none:
-            return []
-        case .menu:
-            return []
-        case .firstCell:
-            return []
         case let .columns(result):
             return result
-        case let .both(result):
+        case let .both(_,result):
             return result
+        default:
+            return []
+        }
+    }
+    
+    public var lockRows: [Int] {
+        switch self.lockStyle {
+        case let .row(result):
+            return result
+        case let .both(result,_):
+            return result
+        default:
+            return []
         }
     }
     
