@@ -12,18 +12,6 @@ public class MPExcelCollectionViewLayout: UICollectionViewFlowLayout {
     
     
     // MARK: - initial methods
-    init(configs: MPExcelConfig,column: Int,menus: [MPExcelCellModel],contents: [MPExcelCellModel]) {
-        assert(column > 0, "column must be greater than 0")
-        self.configs = configs
-        self.column = column
-        let row = contents.count % self.column == 0 ? contents.count / self.column : contents.count / self.column + 1
-        self.row = configs.showMenu ?  row + 1 : row
-        self.menus = menus
-        self.contents = contents
-        super.init()
-        self.fillEmptyModel()
-
-    }
     
     public override init() {
         super.init()
@@ -41,28 +29,19 @@ public class MPExcelCollectionViewLayout: UICollectionViewFlowLayout {
     /// 列数
     var column = 0 {
         didSet {
-            self.widths = Array(repeating: 0.0, count: self.column)
+            self.pointXs = Array(repeating: 0.0, count: self.column)
         }
     }
     
     /// 列数
     var row = 0 {
         didSet {
-            self.heights = Array(repeating: 0.0, count: self.row)
+            self.pointYs = Array(repeating: 0.0, count: self.row)
         }
     }
     
     /// 配置信息
     var configs: MPExcelConfig?
-        
-    /// 内容数据源
-    private var contents: [MPExcelCellModel] = []
-    
-    /// 菜单数据源
-    private var menus: [MPExcelCellModel] = []
-    
-    /// 所有数据源
-    private var allContents: [MPExcelCellModel] = []
     
     /// 所有的布局信息
     private var totalAttributes: [UICollectionViewLayoutAttributes] = []
@@ -70,130 +49,34 @@ public class MPExcelCollectionViewLayout: UICollectionViewFlowLayout {
     
     private var lastAttribute: UICollectionViewLayoutAttributes?
     
-    private var lastPointX: CGFloat = 0
+    private var pointXs: [CGFloat] = []
+
+    private var pointYs: [CGFloat] = []
     
-    private var lastPointY: CGFloat = 0
-    
-    private var widths: [CGFloat] = []
-    private var heights: [CGFloat] = []
+    private var lastRow: Int = 1
     
     /// 填充contents 让 contents.count  =  row * column
-    func fillEmptyModel() {
-        guard let nonilConfig = self.configs else { return }
-        self.allContents = nonilConfig.showMenu ? self.menus + self.contents : self.contents
-        let allCount = self.allContents.count
-        let total = self.row * self.column
-        guard allCount != total else { return }
-        let dis = allCount % total
-        for _ in 0..<dis {
-            self.allContents.append(MPExcelCellModel())
-        }
-        
-    }
-    
-    // MARK: - 计算单元格宽度
-     func autoCalCellWidth() {
-        guard let nonilConfig = self.configs else { return }
-        if nonilConfig.isAutoCalWidth {
-            for columnIndex in 0..<self.column {
-                var targetIndexs: [Int] = []
-                for rowIndex in 0..<self.row {
-                    targetIndexs.append(columnIndex + rowIndex * self.column)
-                }
-                var targetItems: [MPExcelCellModel] = []
-                for index in targetIndexs {
-                    targetItems.append(self.allContents[index])
-                }
-                debugPrint(targetItems)
-//                let maxItem = targetItems.max { (item1, item2) -> Bool in
-//                    let firstIndex = targetItems.firstIndex { $0 == item1 } ?? 0
-//                    let secondIndex =  targetItems.firstIndex { $0 == item2 } ?? 0
+//    func fillEmptyModel() {
+//        guard let nonilConfig = self.configs else { return }
+//        self.allContents = nonilConfig.showMenu ? self.menus + self.contents : self.contents
+//        let allCount = self.allContents.count
+//        let total = self.row * self.column
+//        guard allCount != total else { return }
+//        let dis = allCount % total
+//        for _ in 0..<dis {
+//            self.allContents.append(MPExcelCellModel())
+//        }
 //
-//                    let firstFont = firstIndex == 0 ? nonilConfig.menuFont : !nonilConfig.lockColumns.contains(firstIndex) ? nonilConfig.contentFont : nonilConfig.fixedColumnFont ?? nonilConfig.contentFont
-//                    let secondFont = secondIndex == 0 ? nonilConfig.menuFont : !nonilConfig.lockColumns.contains(secondIndex) ? nonilConfig.contentFont : nonilConfig.fixedColumnFont ?? nonilConfig.contentFont
-//                    let result = self.calItemsSize(item1: item1, item1Font: firstFont, item2: item2, item2Font: secondFont)
-//
-//                    return result.0 < result.1
-//                }
-//                if let nonilMaxItem = maxItem {
-//                    self.widths.append(nonilMaxItem.fitSize.width)
-//                }
-//                else {
-//                    self.widths.append(nonilConfig.maxWidth)
-//                }
-
-            }
-        }
-        else {
-            self.widths.append(nonilConfig.maxWidth)
-        }
-        debugPrint(self.widths)
-    }
-     // MARK: - 计算单元格高度
-    private func autoCalCellHeight() {
-        guard let nonilConfig = self.configs else { return }
-        if nonilConfig.isAutoCalHeight {
-            if nonilConfig.showMenu {
-                for item in self.menus {
-                    
-                }
-            }
-            
-            for (item,index) in self.contents.enumerated() {
-                
-            }
-        }
-        else {
-            
-        }
-    }
-    
-    private func calItemsSize(item1: MPExcelCellModel,item1Font: UIFont,item2: MPExcelCellModel,item2Font: UIFont) -> (CGFloat,CGFloat) {
-        guard let nonilConfig = self.configs else { return (0,0)}
-        let preImage = (item1.image != nil || item1.imageUrl != nil) ? nonilConfig.imageSize : .zero
-        let preTitleSize = item1.title != nil ? NSAttributedString(string: item1.title!, attributes: [NSAttributedString.Key.font : item1Font]).size() : .zero
-        let nextImage = (item2.image != nil || item2.imageUrl != nil) ? nonilConfig.imageSize : .zero
-        let nexTitleSize = item2.title != nil ? NSAttributedString(string: item2.title!, attributes: [NSAttributedString.Key.font : item2Font]).size() : .zero
-        switch nonilConfig.imageAndTextPosition {
-        case .top,.bottom:
-            let contentWidth1 = max(preImage.width,preTitleSize.width)
-            let resultWidth1 = contentWidth1 + nonilConfig.edgeInsets.left + nonilConfig.edgeInsets.right > nonilConfig.maxWidth ? nonilConfig.maxWidth : contentWidth1
-            let contentHeight1 = preImage.height + preTitleSize.height + nonilConfig.imageAndTextSpacing
-            let resultHeight1 = contentHeight1 + nonilConfig.edgeInsets.top + nonilConfig.edgeInsets.bottom > nonilConfig.maxHeight ? nonilConfig.maxHeight : contentHeight1
-            item1.fitSize = CGSize(width: resultWidth1, height: resultHeight1)
-            
-            let contentWidth2 = max(nextImage.width,nexTitleSize.width)
-            let resultWidth2 = contentWidth2 + nonilConfig.edgeInsets.left + nonilConfig.edgeInsets.right > nonilConfig.maxWidth ? nonilConfig.maxWidth : contentWidth2
-            let contentHeight2 = nextImage.height + nexTitleSize.height + nonilConfig.imageAndTextSpacing
-            let resultHeight2 = contentHeight2 + nonilConfig.edgeInsets.top + nonilConfig.edgeInsets.bottom > nonilConfig.maxHeight ? nonilConfig.maxHeight : contentHeight2
-            item2.fitSize = CGSize(width: resultWidth2, height: resultHeight2)
-            
-        case .left,.right:
-            
-            let contentWidth1 = preImage.width + preTitleSize.width + nonilConfig.imageAndTextSpacing
-            let resultWidth1 = contentWidth1 + nonilConfig.edgeInsets.left + nonilConfig.edgeInsets.right > nonilConfig.maxWidth ? nonilConfig.maxWidth : contentWidth1
-            let contentHeight1 = preImage.height + preTitleSize.height + nonilConfig.imageAndTextSpacing
-            let resultHeight1 = contentHeight1 + nonilConfig.edgeInsets.top + nonilConfig.edgeInsets.bottom > nonilConfig.maxHeight ? nonilConfig.maxHeight : contentHeight1
-            item1.fitSize = CGSize(width: resultWidth1, height: resultHeight1)
-            
-            let contentWidth2 = max(nextImage.width,nexTitleSize.width)
-            let resultWidth2 = contentWidth2 + nonilConfig.edgeInsets.left + nonilConfig.edgeInsets.right > nonilConfig.maxWidth ? nonilConfig.maxWidth : contentWidth2
-            let contentHeight2 = nextImage.height + nexTitleSize.height + nonilConfig.imageAndTextSpacing
-            let resultHeight2 = contentHeight2 + nonilConfig.edgeInsets.top + nonilConfig.edgeInsets.bottom > nonilConfig.maxHeight ? nonilConfig.maxHeight : contentHeight2
-            item2.fitSize = CGSize(width: resultWidth2, height: resultHeight2)
-        }
-        return (item1.fitSize.width,item2.fitSize.width)
-    }
+//    }
     
     // MARK: - prepare
     
     public override func prepare() {
         super.prepare()
         
-        self.lastPointX = 0
-        self.lastPointY = 0
-        self.widths = Array(repeating: 0.0, count: self.column)
-        self.heights = Array(repeating: 0.0, count: self.row)
+        self.pointXs = Array(repeating: 0.0, count: self.column)
+        self.pointYs = Array(repeating: 0.0, count: self.row)
+        self.lastRow = 1
         self.totalAttributes.removeAll()
         
         
@@ -260,10 +143,19 @@ public class MPExcelCollectionViewLayout: UICollectionViewFlowLayout {
         let row = (indexPath.row + 1) % self.column == 0 ? (indexPath.row + 1) / self.column : (indexPath.row + 1) / self.column + 1
         let column = row == 1 ? indexPath.row + 1 : ((indexPath.row + 1) % self.column) == 0 ? self.column : (indexPath.row + 1) % self.column
         
-        self.widths[column - 1] = column == 1 ? 0 : self.widths[column - 2] + attr.size.width
-        self.heights[row - 1] = row == 1 ? 0 : self.heights[row - 2] + attr.size.height
+        self.pointXs[column - 1] = column == 1 ? 0 : self.pointXs[column - 2] + (self.lastAttribute?.size.width ?? 0 )
+        if row == 1 {
+            self.pointYs[row - 1] = 0
+        }
+        else {
+            if self.lastRow != row {
+                self.pointYs[row - 1] = self.pointYs[row - 2] + (self.lastAttribute?.size.height ?? 0 )
+            }
+        }
         self.layoutItemWithoutLock(attr: attr, indexPath: indexPath)
 
+        self.lastRow = row
+        
         switch nonilConfig.lockStyle {
         case .none:
             break
@@ -275,7 +167,8 @@ public class MPExcelCollectionViewLayout: UICollectionViewFlowLayout {
             self.layoutItemWihtLockColumns(attr: attr, indexPath: indexPath)
         case .both:
             self.layoutItemWithLockRowsAndColumns(attr: attr, indexPath: indexPath)
-        }        
+        }
+        self.lastAttribute = attr
         return attr
     }
     
@@ -285,11 +178,8 @@ public class MPExcelCollectionViewLayout: UICollectionViewFlowLayout {
         let row = (indexPath.row + 1) % self.column == 0 ? (indexPath.row + 1) / self.column : (indexPath.row + 1) / self.column + 1
         let column = row == 1 ? indexPath.row + 1 : ((indexPath.row + 1) % self.column) == 0 ? self.column : (indexPath.row + 1) % self.column
 
-        if row == self.row && column == self.column {
-            self.lastAttribute = attr
-        }
-        attr.frame.origin.x = self.widths[column - 1]
-        attr.frame.origin.y = self.heights[row - 1]
+        attr.frame.origin.x = self.pointXs[column - 1]
+        attr.frame.origin.y = self.pointYs[row - 1]
 
     }
     

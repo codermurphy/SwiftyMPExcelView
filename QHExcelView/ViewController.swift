@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var menus: [MPExcelCellModel] = []
+    var contents: [MPExcelCellModel] = []
+    
     var configs: MPExcelConfig!
 
     override func viewDidLoad() {
@@ -41,21 +44,30 @@ class ViewController: UIViewController {
         assist.title = "助攻"
         
         
-        _ = [play,time,onPlaying,isFirst,score,backboard,assist]
-        var contens: [MPExcelCellModel] = []
-        for index in 0..<10000 {
+        self.menus = [play,time,onPlaying,isFirst,score,backboard,assist]
+        for index in 0..<100 {
             let item = MPExcelCellModel()
             item.title = String(index)
             if index % 8 == 0 {
                 //item.titleColor = .red
             }
-            contens.append(item)
+            self.contents.append(item)
         }
 //        let layout = MPExcelCollectionViewLayout(configs: MPExcelConfig(), column: menus.count, menus: menus, contents: contens)
 //        layout.autoCalCellWidth()
+        
+        self.configs.isAutoCalWidth = true
+        self.configs.isAutoCalHeight = true
+        
         let excelView = MPExcelView(configs: self.configs)
+        
+        let totolContent = self.menus + self.contents
+        let row = totolContent.count % self.menus.count == 0 ? totolContent.count / self.menus.count : totolContent.count / self.menus.count + 1
+        excelView.autoCalCellWidth(contents: totolContent,totoalColumn: self.menus.count,totalRow: row,contentWidth: self.view.frame.size.width)
+
         excelView.frame = CGRect(x: 0, y: 88, width: self.view.frame.width, height: self.view.frame.height - 88)
         excelView.dataSource = self
+
         self.view.addSubview(excelView)
     }
 
@@ -63,16 +75,23 @@ class ViewController: UIViewController {
 
 extension ViewController: MPExcelViewDataSource {
     func numberOfColumn(_ excelView: MPExcelView) -> Int {
-        return 7
+        return self.menus.count
     }
     
     func numberOfRow(_ excelView: MPExcelView) -> Int {
-        return 100
+        let totolContent = self.menus + self.contents
+        let row = totolContent.count % self.menus.count == 0 ? totolContent.count / self.menus.count : totolContent.count / self.menus.count + 1
+        return row
     }
     
     func excelView(_ excelView: MPExcelView,collectionView: UICollectionView,indexPath: IndexPath,column: Int,row: Int) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MPExcelCollectionCellIdentifer", for: indexPath) as! MPExcelCollectionCell
-        cell.titleLabel.text = "row: \(row) column: \(column)"
+        let totolContent = self.menus + self.contents
+        if indexPath.row < totolContent.count {
+            let content = totolContent[indexPath.row]
+            cell.titleLabel.text = content.title
+
+        }
         return cell
     }
     

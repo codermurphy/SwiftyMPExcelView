@@ -110,7 +110,7 @@ public class MPExcelConfig {
     public var maxWidth: CGFloat = UIScreen.main.bounds.width / 3
     
     /// 是否自动计算单元格的宽度
-    public var isAutoCalWidth: Bool = true
+    public var isAutoCalWidth: Bool = false
     
     /// 单元格最大高度
     public var maxHeight: CGFloat = 44
